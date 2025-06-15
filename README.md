@@ -1,3 +1,36 @@
+[Deployed Website] (https://schema-form-builder.netlify.app/)
+Current Functionalites:
+1.import .json schema file
+format:
+```bash
+{
+    
+    "name": "Registration form",
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+
+        "type": "email"
+      },
+      "password": {
+        "type": "password"
+      },
+      "age": {
+        "type": "number"
+      },
+      "state": {
+        "type": "string"
+      }
+    },
+    "required": ["name", "email", "password"]
+ }
+ ```
+2.create from
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
