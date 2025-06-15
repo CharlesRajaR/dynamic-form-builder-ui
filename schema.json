@@ -1,0 +1,25 @@
+{
+    
+    "name": "Register",
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+
+        "type": "email"
+      },
+      "password": {
+        "type": "password"
+      },
+      "age": {
+        "type": "number"
+      },
+      "state": {
+        "type": "string"
+      }
+    },
+    "required": ["name", "email", "password"]
+  }
+  
