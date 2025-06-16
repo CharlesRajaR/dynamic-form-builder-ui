@@ -11,7 +11,6 @@ export async function storeSchema(schema){
         });
 
         if(!response.ok){
-            const error = response.text();
             throw new Error(`failed to store schema: ${schema}`);
         }
 
@@ -21,7 +20,7 @@ export async function storeSchema(schema){
         return savedSchema;
     }
     catch(error){
-        console.log("error storig schema");
+        console.log("error storig schema",error);
         return null;
     }
 }
@@ -42,7 +41,7 @@ export async function getSchemaByName(name){
         return schema;
     }
     catch(error){
-       console.log("failes to fetch schema : ", name);
+       console.log("failes to fetch schema : ", error);
        return null;
     }
 }
@@ -54,7 +53,6 @@ export async function getAllSchema() {
     });
 
     if(!response.ok){
-        const error = await response.text();
         throw new Error("could not get all schema");
     }
 
@@ -63,7 +61,7 @@ export async function getAllSchema() {
     return schemas;
 }
 catch(error){
-    console.log("could not fetch schema");
+    console.log("could not fetch schema",error);
     return null;
 }
 }
@@ -79,7 +77,6 @@ export async function storeFormData(formData, schemaName) {
     });
 
     if(!response.ok){
-        const error = response.text();
         throw new Error(`failed to store formdata: ${formData}`);
     }
 
@@ -89,7 +86,7 @@ export async function storeFormData(formData, schemaName) {
     return savedFormData;
 }
 catch(error){
-    console.log("error storing form data");
+    console.log("error storing form data",error);
     return null;
 }
 }
