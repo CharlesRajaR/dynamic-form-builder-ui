@@ -1,6 +1,6 @@
 {
     
-    "name": "Register",
+    "name": "nextjs-register",
     "type": "object",
     "properties": {
       "name": {

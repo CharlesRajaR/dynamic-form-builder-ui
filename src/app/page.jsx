@@ -1,5 +1,6 @@
 "use client"
 import Image from "next/image";
+import { getFormDataOfSchema, getSchemaByName, storeFormData, storeSchema } from './api';
 import React, { useState } from "react";
 
 // interface Schema{
@@ -15,6 +16,7 @@ export default function Home() {
   const [currentSchema, setCurrentSchema] = useState(null);
   const [formDataValid, setFormDataValid] = useState(false);
   const [formData, setFormData] = useState({});
+  const [previousData, setPreviousData] = useState(null);
 
 
 
@@ -52,6 +54,9 @@ export default function Home() {
   
   const handleChange = (e) => {
     const {name, value} = e.target;
+    setFormData(prev => ({
+      ...prev, [name]:value
+    }));
     console.log(name)
     console.log(value)
     const errortag = document.getElementById(name);
@@ -88,23 +93,30 @@ export default function Home() {
 
 
   const isValidEmail = (email) =>{
-   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+   return regex.test(email);
   }
   const isValidPassword = (password) => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$%!*?]{8, 50}$/.test(password);
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])(?=.*[^A-Za-z\d@$%!*?]).{8,50}$/;
+    return regex.test(password);
   }
 
   const submitForm = () => {
-
+      const schemaName = currentSchema.name;
+      const savedFormData = storeFormData(formData, schemaName);
+      console.log(savedFormData);
+      createForm(currentSchema);
   }
   const showHistory = () => {
-
+    const history = getFormDataOfSchema(currentSchema?.name);
+    console.log(history);
   }
   const exportCurrentSchema = () => {
-
+     console.log(currentSchema);
   }
   const exportSchemaWithRestoredData = () => {
-
+     const allFormData = getFormDataOfSchema(currentSchema?.name);
+     console.log(allFormData);
   }
   const processFile = (event) => {
     const file = event.target.files?.[0];
@@ -117,12 +129,23 @@ export default function Home() {
         const schema = JSON.parse(e.target?.result);
 
           // Basic schema check
-        if (schema.type !== "object" || typeof schema.properties !== "object") {
-            alert("Invalid schema: Must have 'type: object' and 'properties'");
+        if (typeof schema !== "object" || typeof schema.properties !== "object" || typeof schema.required !== "object") {
+            alert("Invalid schema: Must be object' and 'properties must be objects'");
             return;
         }
 
-        setCurrentSchema(schema);
+        // setCurrentSchema(schema);
+        if(getSchemaByName(schema?.name) === null){
+           const savedSchema = storeSchema(schema);
+           console.log("process", savedSchema)
+           setCurrentSchema(JSON.parse(savedSchema));
+        }
+        else{
+          const savedSchema = getSchemaByName(schema?.name);
+          console.log("process", savedSchema)
+          setCurrentSchema(JSON.parse(savedSchema));
+        }
+
        }
        catch (err) {
         alert("Invalid JSON: " + err.message);
@@ -139,12 +162,12 @@ export default function Home() {
       <div className="w-full  flex flex-col gap-5">
        <div className="flex flex-col justify-center items-center">
         <div className="">
-        <h1 className="text-3xl font-semibold text-slate-700">{currentSchema == null ? "Import Json Schema": "Schema is Imported"}</h1>
+        <h1 className="text-sm md:text-3xl font-semibold text-slate-700">{currentSchema == null ? "Import Json Schema": "Schema is Imported"}</h1>
         </div>
           
         <div className="">
         <input onChange={processFile}
-        className="border-gray-500  text-3xl font-lg text-slate-700 cursor-pointer
+        className="border-gray-500 text-xl md:text-3xl font-lg text-slate-700 cursor-pointer
          rounded-md" type='file' id='schemaFile' accept='.json'/>
         </div>
           
@@ -154,7 +177,7 @@ export default function Home() {
        <div className="flex flex-col gap-3 justify-center items-center">
           <div>
             <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
+            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' disabled={currentSchema == null ? true : false}
             onClick={()=> createForm(currentSchema)}>
               Create Form</button>
@@ -164,7 +187,7 @@ export default function Home() {
           </div>
           <div>
            <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
+            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' disabled={formDataValid}
             onClick={()=>submitForm()}>
               Submit
@@ -178,7 +201,7 @@ export default function Home() {
          <div className="flex flex-col justify-center items-center">
           <p className="text-xl font-bold text-blue-700">Show previously Submitted Data By clicking the button below</p>
           <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-2xl font-semibold text-white bg-blue-500 cursor-pointer 
+            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-blue-500 cursor-pointer 
             hover:bg-blue-700' onClick={()=>showHistory()}>button</button>
          </div>
          <div id='history'>
@@ -192,14 +215,14 @@ export default function Home() {
          <div className="flex flex-col justify-center items-center">
          <p className="text-slate-700 font-bold">Export current schema by clicking the button below</p>
          <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
+            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' onClick={()=>exportCurrentSchema()}>Export</button>
          </div>
 
          <div className='flex flex-col gap-3 justify-center items-center'>
          <p className="text-slate-700 font-bold">Export current schema with data by clicking the button below</p>
          <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
+            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' onClick={()=>exportSchemaWithRestoredData()}>Export with data</button>
          </div>
        </div>
