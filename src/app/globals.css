@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+@media only screen and (min-width:500px){
 body{
     margin: 3vw;
 }
@@ -16,7 +17,7 @@ form {
 
 form p {
     color: red;
-    font-size: 2vw;
+    font-size: 4vw;
     font-weight: 200;
     margin-top: 3px;
     margin-bottom: 5px;
@@ -39,4 +40,41 @@ label {
     font-weight: bold;
     color: rgb(32, 34, 36);
 }
-
+}
+@media only screen and (min-width:768px){
+    form {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            box-shadow: 3px 3px 3px 5px gray;
+            border: 3px;
+            border-style: groove;
+            border-color: rgb(41, 35, 35);
+            border-radius: 10px;
+        }
+    
+        form p {
+            color: red;
+            font-size: 20px;
+            font-weight: 200;
+            margin-top: 3px;
+            margin-bottom: 5px;
+        }
+    
+        input {
+            outline: none;
+            border: 3px;
+            border-style: groove;
+            border-color: rgb(41, 35, 35);
+            border-radius: 10px;
+            font-size: 30px;
+            font-weight: bold;
+            color: rgb(32, 34, 36);
+            padding-left: 20px;
+        }
+    
+        label {
+            font-size: 20px;
+            font-weight: bold;
+            color: rgb(32, 34, 36);   }
+}

@@ -16,7 +16,8 @@ export default function Home() {
   const [currentSchema, setCurrentSchema] = useState(null);
   const [formDataValid, setFormDataValid] = useState(false);
   const [formData, setFormData] = useState({});
-  const [previousData, setPreviousData] = useState(null);
+  const [previousData, setPreviousData] = useState([]);
+  
 
 
 
@@ -62,62 +63,145 @@ export default function Home() {
     const errortag = document.getElementById(name);
     // errortag.innerHTML = "hi hello welcome"
     const field = currentSchema.properties[name];
-    if (field.type === "string"){
+    if("type" in field){
+      typeValidator(field.type, errortag, value);
+    }
+    if("min" in field){
+      const minLength = field.min;
+      if(value.length < minLength){
+        errortag.innerHTML = `minimum length required is ${minLength} \n`
+      }
+      else{
+        errortag.innerHTML = ""
+      }
+    }
+    if("max" in field){
+      const maxLength = field.min;
+      if(value.length > maxLength){
+        errortag.innerHTML = `maximum length required is ${maxLength} \n`
+      }
+      else{
+        errortag.innerHTML = ""
+      }
+    }
+    
+    }
 
+  const typeValidator = (type, errortag, value) => {
+    if (type === "string"){
+      errortag.innerHTML = ""
     }
-    else if (field.type === "integer" || field.type === "number"){
+    else if (type === "integer" || type === "number"){
       if(!Number.isInteger(Number(value))){
-        errortag.innerHTML="required value is number"
+        errortag.innerHTML="required value is number \n"
       }
       else{
         errortag.innerHTML = ""
       }
     }
-    else if (field.type === "email"){
+    else if (type === "email"){
       if(!isValidEmail(value)){
-        errortag.innerHTML="email is invalid"
+        errortag.innerHTML="email is invalid \n"
       }
       else{
         errortag.innerHTML = ""
       }
     }
-    else if (field.type === "password"){
+    else if (type === "password"){
+      errortag.innerHTML = "";
       if(!isValidPassword(password)){
-        errortag.innerHTML="password is invalid"
-      }
-      else{
-        errortag.innerHTML = ""
+      const p1 = document.createElement("p");
+      p1.innerHTML = "at least one small letter is required"
+      const p2 = document.createElement("p");
+      p2.innerHTML = "at least one capital letter is required"
+      const p3 = document.createElement("p");
+      p3.innerHTML = "at least one digit letter is required"
+      const p4 = document.createElement("p");
+      p4.innerHTML = "at least one symbol letter is required"
+    
+        errortag.appendChild(p1);
+        errortag.appendChild(p2);
+        errortag.appendChild(p3);
+        errortag.appendChild(p4);
       }
      }
-    }
-
+  }
 
   const isValidEmail = (email) =>{
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
    return regex.test(email);
   }
+
   const isValidPassword = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])(?=.*[^A-Za-z\d@$%!*?]).{8,50}$/;
-    return regex.test(password);
+    return /[a-z]/.test(password) && /[@$!%*?&]/.test(password) && /\d/.test(password) && /[A-Z]/.test(password)
   }
 
   const submitForm = () => {
-      const schemaName = currentSchema.name;
-      const savedFormData = storeFormData(formData, schemaName);
-      console.log(savedFormData);
-      createForm(currentSchema);
+    console.log("submit form : ",formData);
+    const schemaName = currentSchema.name;
+    console.log(schemaName)
+
+    storeFormData(formData, schemaName).then(savedForm => {
+      console.log("saved form: ", savedForm);
+      if(savedForm !== null){
+        alert("form saved successfully...")
+        createForm(currentSchema);
+      }
+    })
+    .catch(error => {
+      alert("submitting data is not successful"+error);
+    });
+
   }
+
   const showHistory = () => {
-    const history = getFormDataOfSchema(currentSchema?.name);
-    console.log(history);
+    getFormDataOfSchema(currentSchema?.name).then(history => {
+      if(history !== null){
+        console.log(history);
+        setPreviousData(history);
+      }
+
+      if(history.length === 0){
+        alert("no previous data was found...");
+      }
+      
+      // if(history.length > 0){
+      //   renderHistory(history);
+      // }
+      
+    })
+    .catch(error => {
+      console.log("error occurs while fetching previous data", error);
+    });
+
   }
+
+  // const renderHistory = (history) => {
+  //   console.log()
+  // }
+
   const exportCurrentSchema = () => {
+    if(currentSchema === null){
+      alert("no schema found, first import the schema")
+    }
+    else{
      console.log(currentSchema);
+     const jsonData = JSON.stringify(currentSchema, null, 2);
+     const blob = new Blob([jsonData], { type :"application/json"});
+     const link = document.createElement("a");
+
+     link.href = URL.createObjectURL(blob);
+     link.download = "schema.json";
+     document.body.appendChild(link);
+     link.click();
+     document.body.removeChild(link);
+    }
   }
-  const exportSchemaWithRestoredData = () => {
-     const allFormData = getFormDataOfSchema(currentSchema?.name);
-     console.log(allFormData);
-  }
+
+  // const exportSchemaWithRestoredData = () => {
+  //    const allFormData = getFormDataOfSchema(currentSchema?.name);
+  //    console.log(allFormData);
+  // }
   const processFile = (event) => {
     const file = event.target.files?.[0];
 
@@ -133,18 +217,27 @@ export default function Home() {
             alert("Invalid schema: Must be object' and 'properties must be objects'");
             return;
         }
+        
+        setCurrentSchema(schema);
+        console.log("current schema : ",schema)
 
-        // setCurrentSchema(schema);
-        if(getSchemaByName(schema?.name) === null){
-           const savedSchema = storeSchema(schema);
-           console.log("process", savedSchema)
-           setCurrentSchema(JSON.parse(savedSchema));
-        }
-        else{
-          const savedSchema = getSchemaByName(schema?.name);
-          console.log("process", savedSchema)
-          setCurrentSchema(JSON.parse(savedSchema));
-        }
+        getSchemaByName(schema?.name).then(schema1 => {
+          console.log("get schema by name", schema1)
+          
+          if(schema1 === null){
+            return storeSchema(schema).then(stored => {
+              console.log("new schema created: ", stored);
+              setCurrentSchema(stored);
+            });
+          }
+          else{
+            setCurrentSchema(schema1);
+            alert("already the schema with same name is found");
+          }
+        })
+        .catch(error => {
+          console.log("get schema by name catch error");
+        });
 
        }
        catch (err) {
@@ -203,13 +296,37 @@ export default function Home() {
           <button className='border-[1px] border-slate-700 rounded-md
             px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-blue-500 cursor-pointer 
             hover:bg-blue-700' onClick={()=>showHistory()}>button</button>
+            <button className='border-[1px] border-slate-700 rounded-md
+            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-blue-500 cursor-pointer 
+            hover:bg-blue-700 mt-1 md:mt-3' onClick={() => setPreviousData([])}>Hide Previous Data</button>
          </div>
-         <div id='history'>
-          
-         </div>
+         
        </div>
-        
+      <div id='history' className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {
+            previousData.map((item, i) => {
+              return(
+               <div key={i} className="p-3 bg-gray-200 rounded-md flex flex-col gap-1">
+                <p className="text-center">Form {": "}{i+1}</p>
+                {
+                  
+                  Object.entries(item?.fieldWithValues).map(([key, value], index) => {
+                    return(
+                    <div key={index} className="flex gap-1 text-xl font-bold text-black">
+                      
+                      <p>{console.log("key"+ key+" value "+ value)}</p>
+                      <p>{key} : {" "}</p>
+                      <p>{value}</p>
+                    </div>
+                  )}
+                )
+                }
+               </div>
+            )})
+          }
+      </div>
        <div className="h-[1px] w-full bg-black"></div>
+
 
        <div className="flex flex-col gap-3 justify-center items-center">
          <div className="flex flex-col justify-center items-center">
@@ -219,12 +336,12 @@ export default function Home() {
             hover:bg-slate-700' onClick={()=>exportCurrentSchema()}>Export</button>
          </div>
 
-         <div className='flex flex-col gap-3 justify-center items-center'>
+         {/* <div className='flex flex-col gap-3 justify-center items-center'>
          <p className="text-slate-700 font-bold">Export current schema with data by clicking the button below</p>
          <button className='border-[1px] border-slate-700 rounded-md
             px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' onClick={()=>exportSchemaWithRestoredData()}>Export with data</button>
-         </div>
+         </div> */}
        </div>
       </div>
     </div>

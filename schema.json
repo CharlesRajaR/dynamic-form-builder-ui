@@ -1,25 +1,22 @@
 {
-    
-    "name": "nextjs-register",
-    "type": "object",
+    "name": "nextjs-register3",
     "properties": {
       "name": {
         "type": "string"
       },
       "email": {
-
         "type": "email"
-      },
-      "password": {
-        "type": "password"
       },
       "age": {
         "type": "number"
+      },
+      "password": {
+        "type": "password"
       },
       "state": {
         "type": "string"
       }
     },
-    "required": ["name", "email", "password"]
+    "required": ["name", "email"]
   }
   
