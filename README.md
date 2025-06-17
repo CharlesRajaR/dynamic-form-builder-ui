@@ -1,11 +1,12 @@
 ## Steps to run the website in local system:
 ### For Frontend:
+
 ## 📦 Method-1:
 ## Prerequisites:
 Make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (v16 or later recommended)
-- npm (comes with Node.js) or yarn (optional)
+- npm (comes with Node.js) 
 
 ---
 
@@ -21,6 +22,8 @@ npm run dev
 - You can start editing the page by modifying `app/page.tsx`, `app/api.js` The page auto-updates as you edit the file.
 
 ## 📦 Method-2:
+## No Prerequisites required:
+
 - simply go to the deployed frontend website by clicking the link below
 [Deployed Website] (https://schema-form-builder.netlify.app/)
 
@@ -30,11 +33,12 @@ npm run dev
 ## Prerequisites:
 Make sure you have the following installed:
 
-- Java 
+- Java 17 or later
+- Download: https://jdk.java.net/17
 
 ---
 
-### Method 1: Clone and Build from Source
+### Method 1: Clone and Build from Github Repository:
 1. Clone the repository: `git clone https://github.com/CharlesRajaR/dynamic-form-builder.git`
 2. Navigate to the project directory: `cd dynamic-form-builder`
 3. Build and run the application: `mvn spring-boot:run`
