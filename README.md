@@ -12,8 +12,8 @@ Make sure you have the following installed:
 ## 📥 Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/CharlesRajaR/dynamic-form-builder-ui
+cd dynamic-form-builder-ui
 npm install
 npm run dev 
 ```
@@ -48,7 +48,7 @@ Make sure you have the following installed:
 
 ### Note:
 - while running the backend make sure you turn on the internet because the backend is connecting to the remote mongodb database deployment.
-- Backend is not deployed in the internet.
+- spring Boot backend server is not deployed in the internet.
 
 --- 
 
@@ -98,7 +98,7 @@ Make sure you have the following installed:
 ## 3.Submit Form
 ### Description:
 - Submit the form by clicking the submit button, which will submit data if all the data are valid, otherwise it will give an alert message
-- After Submitting the will store the form data with association with the particular schema after validating the form data based on that schema.
+- After Submitting the backend spring-boot will store the form data with association with the particular schema after validating the form data based on that schema.
 - Data are stored in the mongodb database.
 
 ## 4.Previous data
@@ -109,6 +109,8 @@ Make sure you have the following installed:
 ## 5.Export Schema:
 ### Description:
 - Click the export button to export the current schema which will be used for re import.
+
+---
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
