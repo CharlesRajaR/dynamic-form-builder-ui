@@ -52,7 +52,8 @@ Make sure you have the following installed:
 
 --- 
 
-- After running both the frontend and backend the website is fully functional and description of functionality is given below.
+- After running both the frontend and backend in the local system the request from the frontend(http://localhost:3000 or https://schema-form-builder.netlify.app/) is automatically handled by the backend running in the port (http://localhost:8000) and the respective response is sent to the particular frontend,
+- Now the website is fully functional and description of functionality is given below.
 
 ### Demo  Vedio:
 [Demo vedio for using the website](https://drive.google.com/file/d/1_57vEg1vxyu90PWpkeGIoklso7T9SZEz/view?usp=sharing)
