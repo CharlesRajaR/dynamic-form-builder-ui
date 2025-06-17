@@ -1,5 +1,5 @@
 {
-    "name": "nextjs-register3",
+    "name": "nextjs-register4",
     "properties": {
       "name": {
         "type": "string"
@@ -9,9 +9,6 @@
       },
       "age": {
         "type": "number"
-      },
-      "password": {
-        "type": "password"
       },
       "state": {
         "type": "string"
