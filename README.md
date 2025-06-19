@@ -1,7 +1,47 @@
+## Deployed Full Stack Application:
+[Deployed Website Link: ] (https://schema-form-builder.netlify.app/)
+
+- Spring Boot backend server is deployed in internet which is accessed by the frontend internally.
+
+## 🧱 Tech Stack Used:
+### 🖥️ Frontend: Next.js
+- Why Next.js?
+
+- Server-side rendering (SSR) and static site generation (SSG) provide faster load times and better SEO — useful even in internal tools.
+- Built-in API routes were helpful during early development before integrating with the backend.
+- Seamlessly integrates with React, allowing dynamic rendering of form fields based on the input JSON Schema.
+- Its file-based routing and modular structure made organizing UI components intuitive and efficient.
+
+- How it helped solve the problem:
+
+Dynamic form rendering was handled with ease by React components, and Next.js provided a structured way to manage routes, handle client-server interaction, and support live form validation in real-time.
+
+### 🧠 Backend: Java (Spring Boot)
+- Why Java and Spring Boot?
+
+- Spring Boot offers robust data validation, dependency injection, and easy integration with databases, making it ideal for scalable API development.
+- Mature ecosystem and strong community support helped quickly implement JSON Schema validation on the server-side.
+- Secure and production-ready out of the box — essential for handling and validating form submissions safely.
+
+- How it helped solve the problem:
+
+- Server-side validation reused the same JSON Schema as the frontend, ensuring consistency.
+- Spring Boot simplified the creation of RESTful APIs for schema storage, data submission, export, and retrieval.
+
+## 🗃️ Database: MongoDB
+- Why MongoDB?
+
+- Schema-less design was ideal for storing dynamic form data that may vary in structure depending on the schema.
+- Great support for nested and complex JSON-like documents (BSON), aligning naturally with JSON Schema-based data.
+- Scalability and flexibility were a plus for future extensions (e.g., storing user submissions per schema, querying exports, etc.).
+
+### How it helped solve the problem:
+## Easily associated multiple submitted form datasets with a specific schema.
+
+
 ## Steps to run the website in local system:
 ### For Frontend:
 
-## 📦 Method-1:
 ## Prerequisites:
 Make sure you have the following installed:
 
@@ -10,6 +50,7 @@ Make sure you have the following installed:
 
 ---
 
+### Steps:
 ## 📥 Clone the Repository
 
 ```bash
@@ -21,11 +62,6 @@ npm run dev
 - then open the browser and go to http://localhost:3000
 - You can start editing the page by modifying `app/page.tsx`, `app/api.js` The page auto-updates as you edit the file.
 
-## 📦 Method-2:
-## No Prerequisites required:
-
-- simply go to the deployed frontend website by clicking the link below
-[Deployed Website] (https://schema-form-builder.netlify.app/)
 
 ### For Backend:
 ## Running the Backend Locally
@@ -52,11 +88,11 @@ Make sure you have the following installed:
 
 ### Note:
 - while running the backend make sure you turn on the internet because the backend is connecting to the remote mongodb database deployment.
-- spring Boot backend server is not deployed in the internet.
+
 
 --- 
 
-- After running both the frontend and backend in the local system the request from the frontend(http://localhost:3000 or https://schema-form-builder.netlify.app/) is automatically handled by the backend running in the port (http://localhost:8000) and the respective response is sent to the particular frontend,
+- After running both the frontend and backend in the local system the request from the frontend(http://localhost:3000) is automatically handled by the backend running in the port (http://localhost:8000) and the respective response is sent to the frontend http://localhost:3000.
 - Now the website is fully functional and description of functionality is given below.
 
 ### Demo  Vedio:
@@ -78,11 +114,10 @@ Make sure you have the following installed:
     "name": "Registration form",//the name of each schema must be unique
     "properties": {
       "name": {
-        "type": "string"
+        "type": "string",
       },
       "email": {
-
-        "type": "email"
+         "type": "email"
       },
       "age": {
         "type": "number"
@@ -98,7 +133,7 @@ Make sure you have the following installed:
 ## 2.Create Dynamic Form
 ### Description:
 - Click the create form button to create the dynamic form
-- Note : for validation part no third party libraries like Yup etc., is used, instead i use javascript to validate the form.
+- Note : For validation part third party libraries like Yup etc., is not used, Instead i use javascript to validate the form.
 
 ## 3.Submit Form
 ### Description:
@@ -116,16 +151,4 @@ Make sure you have the following installed:
 - Click the export button to export the current schema which will be used for re import.
 
 ---
-
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
