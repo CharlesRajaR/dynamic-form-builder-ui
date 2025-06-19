@@ -24,8 +24,7 @@ Dynamic form rendering was handled with ease by React components, and Next.js pr
 - Secure and production-ready out of the box — essential for handling and validating form submissions safely.
 
 ### How it helped solve the problem:
-- Server-side validation reused the same JSON Schema as the frontend, ensuring consistency.
-- Spring Boot simplified the creation of RESTful APIs for schema storage, data submission, export, and retrieval.
+Server-side validation reused the same JSON Schema as the frontend, ensuring consistency.Spring Boot simplified the creation of RESTful APIs for schema storage, data submission, export, and retrieval.
 
 ## 🗃️ Database: MongoDB
 - Why MongoDB?
@@ -35,7 +34,7 @@ Dynamic form rendering was handled with ease by React components, and Next.js pr
 - Scalability and flexibility were a plus for future extensions (e.g., storing user submissions per schema, querying exports, etc.).
 
 ### How it helped solve the problem:
-- Easily associated multiple submitted form datasets with a specific schema.
+Easily associated multiple submitted form datasets with a specific schema.
 
 
 ## Steps to run the website in local system:
