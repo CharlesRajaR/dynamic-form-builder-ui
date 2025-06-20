@@ -1,0 +1,59 @@
+{
+  "schema": {
+    "id": "68550adec7e07eb40f372479",
+    "name": "nextjs-register-8",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "email"
+      },
+      "age": {
+        "type": "number"
+      },
+      "password": {
+        "type": "password",
+        "min": "8",
+        "max": "10"
+      },
+      "state": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "name",
+      "email",
+      "password"
+    ]
+  },
+  "formData": [
+    {
+      "Form-1": {
+        "name": "Charles Raja R",
+        "email": "rcr@gmail.com",
+        "age": "22",
+        "password": "jjjA9394@",
+        "state": "Tamil Nadu"
+      }
+    },
+    {
+      "Form-2": {
+        "name": "Charles Raja",
+        "email": "rcharlesraja2003@gmail.com",
+        "age": "22",
+        "password": "Add23@jn",
+        "state": "Tamil Nadu"
+      }
+    },
+    {
+      "Form-3": {
+        "name": "Charles Raja",
+        "email": "rcharlesraja2003@gmail.com",
+        "age": "55",
+        "password": "jjjA9394@",
+        "state": "Tamil Nadu"
+      }
+    }
+  ]
+}

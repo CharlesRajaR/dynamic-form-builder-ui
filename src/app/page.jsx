@@ -14,14 +14,17 @@ import React, { useState } from "react";
 
 export default function Home() {
   const [currentSchema, setCurrentSchema] = useState(null);
-  const [formDataValid, setFormDataValid] = useState(false);
+  const [errorData, setErrorData] = useState({});
   const [formData, setFormData] = useState({});
   const [previousData, setPreviousData] = useState([]);
-  
+  const [formCreated, setFormCreated] = useState(false); 
 
 
 
   const createForm = (schema) => {
+    setFormData({});
+    setErrorData({});
+    setFormCreated(true);
     const formContainer = document.getElementById('form');
     formContainer.innerHTML = ""; // Clear previous form
 
@@ -37,12 +40,20 @@ export default function Home() {
 
       input.name = key;
       input.value = "";
-      setFormData({...formData, [key]:""})
+      input.id = key;
+
+      setFormData(prev => ({
+        ...prev, [key]:""
+      }));
+      setErrorData(prev => ({
+        ...prev, [key]:"no error"
+      }));
+
       input.addEventListener("change", handleChange);
       input.type = "text";
    
       const ptag = document.createElement("p");
-      ptag.id = key;
+      ptag.id = `${key}errortag`;
 
 
       form.appendChild(label);
@@ -50,6 +61,8 @@ export default function Home() {
       form.appendChild(ptag);
       form.appendChild(document.createElement("br"));
     }
+    console.log("initial form", formData);
+    console.log("initial error", errorData);
     formContainer.appendChild(form);
   }
   
@@ -60,71 +73,146 @@ export default function Home() {
     }));
     console.log(name)
     console.log(value)
-    const errortag = document.getElementById(name);
+    const errortag = document.getElementById(`${name}errortag`);
     // errortag.innerHTML = "hi hello welcome"
     const field = currentSchema.properties[name];
     if("type" in field){
-      typeValidator(field.type, errortag, value);
+      typeValidator(field.type, errortag, value, name);
     }
     if("min" in field){
       const minLength = field.min;
       if(value.length < minLength){
         errortag.innerHTML = `minimum length required is ${minLength} \n`
+        setErrorData(prev => ({
+          ...prev, [name]:`minimum length required is ${minLength} \n`
+        }));
       }
       else{
         errortag.innerHTML = ""
+        setErrorData(prev => ({
+          ...prev, [name]:"no error"
+        }));
       }
     }
     if("max" in field){
-      const maxLength = field.min;
+      const maxLength = field.max;
       if(value.length > maxLength){
         errortag.innerHTML = `maximum length required is ${maxLength} \n`
+        setErrorData(prev => ({
+          ...prev, [name]:`maximum length required is ${maxLength} \n`
+        }));
       }
       else{
-        errortag.innerHTML = ""
+        errortag.innerHTML = "";
+        setErrorData(prev => ({
+          ...prev, [name]:"no error"
+        }));
       }
     }
     
+    console.log("formdatahandlechange", formData);
+    console.log("errordatahandlechange", errorData);
     }
 
-  const typeValidator = (type, errortag, value) => {
+  const typeValidator = (type, errortag, value, name) => {
+    console.log(`type validator: name: ${name}, value: ${value} , type: ${type}, errortag: ${errortag}`);
     if (type === "string"){
       errortag.innerHTML = ""
     }
     else if (type === "integer" || type === "number"){
       if(!Number.isInteger(Number(value))){
-        errortag.innerHTML="required value is number \n"
+        errortag.innerHTML="required value is number \n";
+        setErrorData(prev => ({
+          ...prev, [name]:`required value is number `
+        }));
       }
       else{
         errortag.innerHTML = ""
+        setErrorData(prev => ({
+          ...prev, [name]:"no error"
+        }));
       }
     }
     else if (type === "email"){
       if(!isValidEmail(value)){
         errortag.innerHTML="email is invalid \n"
+        setErrorData(prev => ({
+          ...prev, [name]:"email is invalid"
+        }));
       }
       else{
         errortag.innerHTML = ""
+        setErrorData(prev => ({
+          ...prev, [name]:"no error"
+        }));
       }
     }
     else if (type === "password"){
-      errortag.innerHTML = "";
-      if(!isValidPassword(password)){
-      const p1 = document.createElement("p");
-      p1.innerHTML = "at least one small letter is required"
-      const p2 = document.createElement("p");
-      p2.innerHTML = "at least one capital letter is required"
-      const p3 = document.createElement("p");
-      p3.innerHTML = "at least one digit letter is required"
-      const p4 = document.createElement("p");
-      p4.innerHTML = "at least one symbol letter is required"
-    
-        errortag.appendChild(p1);
-        errortag.appendChild(p2);
-        errortag.appendChild(p3);
-        errortag.appendChild(p4);
-      }
+      passwordValidator(value, name, errortag)
      }
+  }
+
+  const passwordValidator = (value, name, errortag) => {
+    if(!isValidPassword(value)){
+      console.log("password is in-valid...");
+
+      setErrorData(prev => ({
+        ...prev, password:"password is invalid"
+      }));
+
+      // const p1 = document.createElement("p");
+      // p1.id = "smallerr";
+      // p1.innerHTML = "at least one small letter is required";
+      // const p2 = document.createElement("p");
+      // p2.id = "caperr";
+      // p2.innerHTML  = "at least one capital letter is required";
+      // const p3 = document.createElement("p");
+      // p3.id = "digerr";
+      // p3.innerHTML  = "at least one digit letter is required";
+      // const p4 = document.createElement("p");
+      // p4.id = "symerr";
+      // p4.innerHTML  = "at least one symbol (@$!%*?&) is required";
+    
+      // if(!/[a-z]/.test(value) ){
+      //   errortag.appendChild(p1);
+      // }
+      // if(!/[@$!%*?&]/.test(value) ){
+      //   errortag.appendChild(p4);
+      // }
+      // if(!/\d/.test(value) ){
+      //   errortag.appendChild(p3);
+      // }
+      // if(!/[A-Z]/.test(value)){
+      //   errortag.appendChild(p2);
+      // }       
+        
+      return false;
+      }
+
+      else{
+        console.log("else statement")
+        setErrorData(prev => ({
+          ...prev, password:"no error"
+        }));
+        // const p1 = document.getElementById("smallerr");
+        // const p2 = document.getElementById("caperr");
+        // const p3 = document.getElementById("digerr");
+        // const p4 = document.getElementById("symerr");
+
+        // if(p1 && errortag.contains(p1)){
+        //   errortag.removeChild(p1);
+        // }
+        // if(p2 && errortag.contains(p2)){
+        //   errortag.removeChild(p2);
+        // }
+        // if(p3 && errortag.contains(p3)){
+        //   errortag.removeChild(p3);
+        // }
+        // if(p4 && errortag.contains(p4)){
+        //   errortag.removeChild(p4);
+        // }
+        return true;
+      }
   }
 
   const isValidEmail = (email) =>{
@@ -137,7 +225,19 @@ export default function Home() {
   }
 
   const submitForm = () => {
-    console.log("submit form : ",formData);
+    console.log("submit formss : ",formData);
+    console.log("error details : ", errorData);
+    if(currentSchema === null){
+       alert("kindly import the valid schema and \n create form and enter valid data then \n click submit button")
+    }
+    else if(!hasRequiredFiels()){
+       console.log("some fiels are required")
+    }
+    else if(hasErrorData()){
+       alert("some field value are wrong")
+       console.log("errorData : ",errorData);
+    }
+    else{
     const schemaName = currentSchema.name;
     console.log(schemaName)
 
@@ -151,8 +251,36 @@ export default function Home() {
     .catch(error => {
       alert("submitting data is not successful"+error);
     });
-
   }
+}
+
+const hasRequiredFiels = () => {
+  let flag = true;
+  const required = currentSchema?.required;
+  console.log("required", required);
+  for(let i = 0; i < required.length; i++){
+    const key = required[i];
+    console.log("required key ", key, "formdata[key] ", formData[key]);
+    if(formData[key] === ""){
+      flag = false;
+      const errortag = document.getElementById(`${key}errortag`);
+      errortag.innerHTML = "this field is required"
+    }
+  }
+  return flag;
+}
+
+const hasErrorData = () => {
+  console.log("hasError", errorData);
+  for(const key in errorData){
+    console.log("key ", key)
+    console.log("errorData[key] ", errorData[key])
+    if(errorData[key] !== "no error"){
+      return true;
+    }
+  }
+  return false;
+}
 
   const showHistory = () => {
     getFormDataOfSchema(currentSchema?.name).then(history => {
@@ -176,10 +304,6 @@ export default function Home() {
 
   }
 
-  // const renderHistory = (history) => {
-  //   console.log()
-  // }
-
   const exportCurrentSchema = () => {
     if(currentSchema === null){
       alert("no schema found, first import the schema")
@@ -198,10 +322,35 @@ export default function Home() {
     }
   }
 
-  // const exportSchemaWithRestoredData = () => {
-  //    const allFormData = getFormDataOfSchema(currentSchema?.name);
-  //    console.log(allFormData);
-  // }
+  const exportSchemaWithRestoredData = () => {
+    if(currentSchema === null){
+      alert("import schema of the form you want to export");
+    }
+    else{
+     getFormDataOfSchema(currentSchema.name).then(formDatas => setPreviousData(formDatas));
+     const restoredData = [];
+     previousData.map((item, i) =>{
+       let name = `Form-${i+1}`
+       restoredData.push({[name]:item.fieldWithValues});
+     });
+
+     const data = {
+      schema:currentSchema,
+      formData:restoredData
+     }
+
+     const jsonData = JSON.stringify(data, null, 2);
+     const blob = new Blob([jsonData], { type :"application/json"});
+     const link = document.createElement("a");
+
+     link.href = URL.createObjectURL(blob);
+     link.download = "SchemaWithRestoredData.json";
+     document.body.appendChild(link);
+     link.click();
+     document.body.removeChild(link);
+    }
+  }
+
   const processFile = (event) => {
     const file = event.target.files?.[0];
 
@@ -272,20 +421,20 @@ export default function Home() {
             <button className='border-[1px] border-slate-700 rounded-md
             px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' disabled={currentSchema == null ? true : false}
-            onClick={()=> createForm(currentSchema)}>
+            onClick={()=> currentSchema === null ? alert("import valid schema and then click create form button"): createForm(currentSchema)}>
               Create Form</button>
           </div>
           <div id='form' className="">
              {/* The form is created here */}
           </div>
-          <div>
-           <button className='border-[1px] border-slate-700 rounded-md
+          <div>{
+           formCreated && <button className='border-[1px] border-slate-700 rounded-md
             px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
-            hover:bg-slate-700' disabled={formDataValid}
+            hover:bg-slate-700'
             onClick={()=>submitForm()}>
               Submit
             </button>
-          </div>
+          }</div>
        </div>
 
        <div className="h-[1px] w-full bg-black"></div>
@@ -336,12 +485,16 @@ export default function Home() {
             hover:bg-slate-700' onClick={()=>exportCurrentSchema()}>Export</button>
          </div>
 
-         {/* <div className='flex flex-col gap-3 justify-center items-center'>
-         <p className="text-slate-700 font-bold">Export current schema with data by clicking the button below</p>
+         <div className="h-[1px] w-full bg-black"></div>
+
+         <div className='flex flex-col gap-3 justify-center items-center'>
+         <p className="text-slate-700 font-bold">
+          Want to export schema with its restored data? click the button below</p>
          <button className='border-[1px] border-slate-700 rounded-md
             px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
-            hover:bg-slate-700' onClick={()=>exportSchemaWithRestoredData()}>Export with data</button>
-         </div> */}
+            hover:bg-slate-700' onClick={()=>exportSchemaWithRestoredData()}>
+              Export</button>
+         </div>
        </div>
       </div>
     </div>
