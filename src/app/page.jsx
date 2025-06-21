@@ -24,8 +24,11 @@ export default function Home() {
   const createForm = () => {
     if(currentSchema === null){
       alert("import the schema file and then create form");
+      console.log("no schema found: ", currentSchema);
     }
     else{
+    const schema = currentSchema;
+    console.log("schema: ", schema);
     setFormData({});
     setErrorData({});
     setFormCreated(true);
@@ -439,7 +442,7 @@ const hasErrorData = () => {
             <button className='border-[1px] border-slate-700 rounded-md
             px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' disabled={currentSchema == null ? true : false}
-            onClick={createForm}>
+            onClick={() => createForm()}>
               Create Form</button>
           </div>
           <div id='form' className="">
