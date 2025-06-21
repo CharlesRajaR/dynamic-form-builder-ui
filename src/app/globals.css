@@ -1,41 +1,55 @@
 @import "tailwindcss";
 
-
-body{
-    margin-top: 0;
+/* Prevent horizontal scroll globally */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 
-.prev{
-    background-color:  rgba(0, 0, 255, 0.1) ;
+p {
+  @apply break-words;
 }
 
-#bg-grad{
-    background: linear-gradient(
-        to top right,
-        rgba(255, 255, 0, 0.1) 0%,
-        rgba(255, 255, 0, 0.1)  30%,
-        rgba(0, 0, 255, 0.1)  30%,
-        rgba(0, 0, 255, 0.1) 60%,
-        rgba(255, 0, 0, 0.1) 60%,
-        rgba(200, 0, 0, 0.1) 90%,
-        rgba(0, 128, 0, 0.1) 90%,
-        rgba(0, 128, 0, 0.1) 100%
-    );
+
+.prev {
+  background-color: rgba(0, 0, 255, 0.1);
 }
+
+
+#bg-grad {
+  background: linear-gradient(
+    to top right,
+    rgba(255, 255, 0, 0.1) 0%,
+    rgba(255, 255, 0, 0.1) 30%,
+    rgba(0, 0, 255, 0.1) 30%,
+    rgba(0, 0, 255, 0.1) 60%,
+    rgba(255, 0, 0, 0.1) 60%,
+    rgba(200, 0, 0, 0.1) 90%,
+    rgba(0, 128, 0, 0.1) 90%,
+    rgba(0, 128, 0, 0.1) 100%
+  );
+}
+
 
 form {
-   @apply flex flex-col gap-1 border-[1px] md:border-[3px] rounded-md px-3 py-1 md:p-5 bg-white shadow-lg inset-shadow-sm shadow-slate-700
+  @apply flex flex-col gap-1 border-[1px] md:border-[3px] rounded-md px-3 py-1 md:p-5 bg-white shadow-lg shadow-slate-700 max-w-full;
 }
-form p{
-    @apply text-[10px] md:text-[15px] lg:text-[20px] font-semibold text-red-700 
+
+form p {
+  @apply text-[10px] md:text-[15px] lg:text-[20px] font-semibold text-red-700;
 }
-form input{
-    @apply outline-none border-[1px] md:border-[3px] border-slate-700 font-semibold rounded-md text-xs md:text-2xl py-1 px-1 md:py-3 px-3;
+
+
+form input {
+  @apply outline-none border-[1px] md:border-[3px] border-slate-700 font-semibold rounded-md text-xs md:text-2xl py-1 px-2 md:py-3 md:px-3 w-full max-w-[90vw] md:max-w-[30vw];
 }
-form label{
-    @apply text-xs md:text-xl font-bold;
+
+
+form label {
+  @apply text-xs md:text-xl font-bold;
 }
+
 
 /*@media only screen and (min-width:500px){
 
@@ -76,40 +90,4 @@ label {
     color: rgb(32, 34, 36);
 }
 }
-@media only screen and (min-width:768px){
-    form {
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-            box-shadow: 3px 3px 3px 5px gray;
-            border: 3px;
-            border-style: groove;
-            border-color: rgb(41, 35, 35);
-            border-radius: 10px;
-        }
-    
-        form p {
-            color: red;
-            font-size: 20px;
-            font-weight: 200;
-            margin-top: 3px;
-            margin-bottom: 5px;
-        }
-    
-        input {
-            outline: none;
-            border: 3px;
-            border-style: groove;
-            border-color: rgb(41, 35, 35);
-            border-radius: 10px;
-            font-size: 30px;
-            font-weight: bold;
-            color: rgb(32, 34, 36);
-            padding-left: 20px;
-        }
-    
-        label {
-            font-size: 20px;
-            font-weight: bold;
-            color: rgb(32, 34, 36);   }
-}*/
+*/

@@ -459,8 +459,9 @@ const downloadSampleJson = () => {
 }
 
 return (
-  <div className="min-h-screen prev w-full">
-    <div className="w-full flex flex-col gap-5">
+  <div className="">
+<div className="prev w-full">
+     <div className="w-full flex flex-col gap-5">
       <div className="w-full  flex flex-col gap-5" id="bg-grad">
        <div className="flex flex-col justify-center items-center">
         <div className="flex flex-col gap-1">
@@ -503,7 +504,7 @@ return (
           </div>
           <div id='form' className="">
              {/* The form is created here */}
-          </div>
+           </div>
           <div>{
            formCreated && <button className='border-[1px] border-slate-700 rounded-md
             px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
@@ -526,8 +527,8 @@ return (
 
          <div className="h-[1px] w-full bg-black"></div>
 
-         <div className='flex flex-col gap-3 pb-5 justify-center items-center'>
-         <p className="text-slate-700 text-xs md:text-2xl font-bold">
+         <div className='flex flex-col gap-3 max-w-full pb-5 justify-center items-center'>
+         <p className="text-slate-700 text-xs break-words md:text-2xl font-bold">
           Want to export schema with its restored data? click the button below</p>
          <button className='border-[1px] border-slate-700 rounded-md
             p-1 md:px-3 md:py-1 text-xs md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
@@ -540,7 +541,7 @@ return (
       <div className="flex flex-col gap-3">
         <div className="flex justify-center items-center">
          <div className="flex flex-col justify-center items-center">
-          <p className="text-xs md:text-xl font-bold text-blue-700">Show previously Submitted Data By clicking the button below</p>
+          <p className="text-xs md:text-xl break-words font-bold text-blue-700">Show previously Submitted Data By clicking the button below</p>
           <button className='border-[1px] border-slate-700 rounded-md
             p-1 md:px-3 md:py-1 text-xs md:text-2xl font-semibold text-white bg-blue-500 cursor-pointer 
             hover:bg-blue-700' onClick={()=>showHistory()}>button</button>
@@ -550,11 +551,13 @@ return (
          </div>
          
        </div>
-      <div id='history' className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5">
+
+       <div id='history' className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5 max-w-full overflow-x-hidden">
           {
             previousData.map((item, i) => {
               return(
-               <div key={i} className="p-3 bg-gray-200 rounded-md flex border-[1px] border-slate-300 rounded-md  flex-col gap-1">
+               <div key={i} className="p-3 bg-gray-200 rounded-md flex border-[1px] 
+               border-slate-300 rounded-md  flex-col gap-1 break-words max-w-full">
                 <p className="text-center">Form {": "}{i+1}</p>
                 {
                   
@@ -574,9 +577,11 @@ return (
           }
       </div>
 
+
       </div>
     </div>
 
+  </div>
   </div>
   );
 }
