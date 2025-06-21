@@ -465,7 +465,7 @@ return (
       <div className="w-full  flex flex-col gap-5" id="bg-grad">
        <div className="flex flex-col justify-center items-center">
         <div className="flex flex-col gap-1">
-        <p className="text-blue-700 text-xs md:font-semibold md:text-lg">
+        <p className="text-yellow-700 text-xs md:font-semibold md:text-lg">
         Want a sample schema format? 
         <button onClick={downloadSampleJson} className="border-b-[1px] md:border-b-2 border-blue-700 cursor-pointer 
         active:text-yellow-700

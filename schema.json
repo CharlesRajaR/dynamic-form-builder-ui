@@ -1,6 +1,5 @@
 {
-  "id": "68550adec7e07eb40f372479",
-  "name": "nextjs-register-8",
+  "name": "unique name for each schema",
   "properties": {
     "name": {
       "type": "string"
@@ -12,9 +11,7 @@
       "type": "number"
     },
     "password": {
-      "type": "password",
-      "min": "8",
-      "max": "10"
+      "type": "password"
     },
     "state": {
       "type": "string"
@@ -22,7 +19,6 @@
   },
   "required": [
     "name",
-    "email",
-    "password"
+    "email"
   ]
 }
