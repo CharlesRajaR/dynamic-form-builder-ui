@@ -1,0 +1,25 @@
+{
+  "name": "unique name for each schema",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "age": {
+      "type": "number"
+    },
+    "password": {
+      "type": "password"
+    },
+    "state": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "email",
+    "password"
+  ]
+}

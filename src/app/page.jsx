@@ -390,13 +390,50 @@ const processFile = (event) => {
     reader.readAsText(file);
 }
 
+const downloadSampleJson = () => {
+     const sampleSchema = {
+    name: "unique name for each schema",
+    properties: {
+      name: {
+        type: "string"
+      },
+      email: {
+        type: "email"
+      },
+      age: {
+        type: "number"
+      },
+      password:{
+        type:"password"
+      },
+      state: {
+        type: "string"
+      }
+    },
+    required: ["name", "email", "password"]
+     }
+     const jsonData = JSON.stringify(sampleSchema, null, 2);
+     const blob = new Blob([jsonData], { type :"application/json"});
+     const link = document.createElement("a");
+
+     link.href = URL.createObjectURL(blob);
+     link.download = "sampleSchema.json";
+     document.body.appendChild(link);
+     link.click();
+     document.body.removeChild(link);
+}
 
 return (
   <div className="min-h-screen mt-5 w-full">
     <div className="w-full flex flex-col">
       <div className="w-full  flex flex-col gap-5">
        <div className="flex flex-col justify-center items-center">
-        <div className="">
+        <div className="flex flex-col gap-1">
+        <p className="text-blue-700 font-semibold text-lg">
+        Want a sample schema format? 
+        <button onClick={downloadSampleJson} className="border-b-2 border-blue-700 cursor-pointer 
+        active:text-yellow-700
+        transition duration-1000">click here...</button></p>
         <h1 className="text-sm md:text-3xl font-semibold text-slate-700">
         {currentSchema == null ? "Import Json Schema": "Schema is Imported"}</h1>
         </div>
