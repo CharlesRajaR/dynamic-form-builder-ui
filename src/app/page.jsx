@@ -21,7 +21,11 @@ export default function Home() {
 
 
 
-  const createForm = (schema) => {
+  const createForm = () => {
+    if(currentSchema === null){
+      alert("import the schema file and then create form");
+    }
+    else{
     setFormData({});
     setErrorData({});
     setFormCreated(true);
@@ -64,6 +68,7 @@ export default function Home() {
     console.log("initial form", formData);
     console.log("initial error", errorData);
     formContainer.appendChild(form);
+  }
   }
   
   const handleChange = (e) => {
@@ -283,6 +288,10 @@ const hasErrorData = () => {
 }
 
   const showHistory = () => {
+    if(currentSchema === null){
+      alert("import respective schema! \n then click the button to see previous submitted form data...")
+    }
+    else{
     getFormDataOfSchema(currentSchema?.name).then(history => {
       if(history !== null){
         console.log(history);
@@ -302,8 +311,16 @@ const hasErrorData = () => {
       console.log("error occurs while fetching previous data", error);
     });
 
+    }
   }
-
+  const hideHistory = () => {
+    if(previousData.length == 0){
+       alert("already the previous data was hidden");
+    }
+    else{
+      setPreviousData([]);
+    }
+  }
   const exportCurrentSchema = () => {
     if(currentSchema === null){
       alert("no schema found, first import the schema")
@@ -404,7 +421,8 @@ const hasErrorData = () => {
       <div className="w-full  flex flex-col gap-5">
        <div className="flex flex-col justify-center items-center">
         <div className="">
-        <h1 className="text-sm md:text-3xl font-semibold text-slate-700">{currentSchema == null ? "Import Json Schema": "Schema is Imported"}</h1>
+        <h1 className="text-sm md:text-3xl font-semibold text-slate-700">
+        {currentSchema == null ? "Import Json Schema": "Schema is Imported"}</h1>
         </div>
           
         <div className="">
@@ -421,7 +439,7 @@ const hasErrorData = () => {
             <button className='border-[1px] border-slate-700 rounded-md
             px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' disabled={currentSchema == null ? true : false}
-            onClick={()=> currentSchema === null ? alert("import valid schema and then click create form button"): createForm(currentSchema)}>
+            onClick={createForm}>
               Create Form</button>
           </div>
           <div id='form' className="">
@@ -447,7 +465,7 @@ const hasErrorData = () => {
             hover:bg-blue-700' onClick={()=>showHistory()}>button</button>
             <button className='border-[1px] border-slate-700 rounded-md
             px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-blue-500 cursor-pointer 
-            hover:bg-blue-700 mt-1 md:mt-3' onClick={() => setPreviousData([])}>Hide Previous Data</button>
+            hover:bg-blue-700 mt-1 md:mt-3' onClick={hideHistory}>Hide Previous Data</button>
          </div>
          
        </div>
