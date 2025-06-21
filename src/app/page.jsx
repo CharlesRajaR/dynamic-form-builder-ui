@@ -352,14 +352,18 @@ const exportSchemaWithRestoredData = () => {
       alert("import schema of the form you want to export");
     }
     else{
-     getFormDataOfSchema(currentSchema.name).then(formDatas => setPreviousData(formDatas));
-     const restoredData = [];
-     previousData.map((item, i) =>{
-       let name = `Form-${i+1}`
-       restoredData.push({[name]:item.fieldWithValues});
-     });
+    const restoredData = [];
 
-     const data = {
+     getFormDataOfSchema(currentSchema.name).then(history => {
+      if(history !== null){
+        console.log(history);
+        setPreviousData(history);
+        history.map((item, i) =>{
+           let name = `Form-${i+1}`
+           restoredData.push({[name]:item.fieldWithValues});
+        });
+
+    const data = {
       schema:currentSchema,
       formData:restoredData
      }
@@ -373,6 +377,12 @@ const exportSchemaWithRestoredData = () => {
      document.body.appendChild(link);
      link.click();
      document.body.removeChild(link);
+     
+      }
+    })
+    .catch(error => {
+      console.log("error occurs while fetching previous data", error);
+    });
     }
 }
 

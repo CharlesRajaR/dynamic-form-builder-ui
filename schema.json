@@ -12,7 +12,7 @@
     },
     "password": {
       "type": "password"
-    },
+      },
     "state": {
       "type": "string"
     }
