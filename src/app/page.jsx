@@ -80,6 +80,9 @@ const removeSchema = () => {
       formContainer.removeChild(form);
   }
   setFormCreated(false);
+  setPreviousData([]);
+  setFormData({});
+  setErrorData({});
   }
 }
   
