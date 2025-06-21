@@ -22,7 +22,7 @@ export default function Home() {
 
 
   const createForm = () => {
-    if(currentSchema === null){
+    if(currentSchema == null){
       alert("import the schema file and then create form");
       console.log("no schema found: ", currentSchema);
     }
@@ -439,11 +439,14 @@ const hasErrorData = () => {
 
        <div className="flex flex-col gap-3 justify-center items-center">
           <div>
+          { currentSchema !== null &&
             <button className='border-[1px] border-slate-700 rounded-md
             px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' disabled={currentSchema == null ? true : false}
             onClick={() => createForm()}>
-              Create Form</button>
+              Create Form
+            </button>
+          }
           </div>
           <div id='form' className="">
              {/* The form is created here */}
@@ -458,7 +461,7 @@ const hasErrorData = () => {
           }</div>
        </div>
 
-       <div className="h-[1px] w-full bg-black"></div>
+       {currentSchema !== null && <div className="h-[1px] w-full bg-black"></div>}
 
        <div className="flex justify-center items-center">
          <div className="flex flex-col justify-center items-center">
