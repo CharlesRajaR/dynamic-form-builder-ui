@@ -1,5 +1,6 @@
 {
-  "name": "unique name for each schema",
+  "id": "6856b645c552996616d6f53c",
+  "name": "login-form-2",
   "properties": {
     "name": {
       "type": "string"
@@ -11,14 +12,17 @@
       "type": "number"
     },
     "password": {
-      "type": "password"
-      },
+      "type": "password",
+      "min": "8",
+      "max": "10"
+    },
     "state": {
       "type": "string"
     }
   },
   "required": [
     "name",
-    "email"
+    "email",
+    "password"
   ]
 }
