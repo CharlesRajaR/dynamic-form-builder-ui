@@ -459,23 +459,23 @@ const downloadSampleJson = () => {
 }
 
 return (
-  <div className="min-h-screen prev  w-full">
+  <div className="min-h-screen prev w-full">
     <div className="w-full flex flex-col gap-5">
       <div className="w-full  flex flex-col gap-5" id="bg-grad">
        <div className="flex flex-col justify-center items-center">
         <div className="flex flex-col gap-1">
-        <p className="text-blue-700 font-semibold text-lg">
+        <p className="text-blue-700 text-xs md:font-semibold md:text-lg">
         Want a sample schema format? 
-        <button onClick={downloadSampleJson} className="border-b-2 border-blue-700 cursor-pointer 
+        <button onClick={downloadSampleJson} className="border-b-[1px] md:border-b-2 border-blue-700 cursor-pointer 
         active:text-yellow-700
         transition duration-1000">click here...</button></p>
         <h1 className="text-sm md:text-3xl font-semibold text-slate-700">
         {currentSchema == null ? "Import Json Schema": "Schema is Imported"}</h1>
         </div>
           
-        <div className="">
+        <div className="text-xs md:text-3xl">
         <input onChange={processFile}
-        className="border-gray-500 text-xl md:text-3xl font-lg text-slate-700 cursor-pointer
+        className="border-[1px] md:border-2 border-gray-500 text-xl md:text-3xl font-lg text-slate-700 cursor-pointer
          rounded-md" type='file' id='schemaFile' accept='.json'/>
         </div>
           
@@ -518,19 +518,19 @@ return (
 
        <div className="flex flex-col gap-3 justify-center items-center">
          <div className="flex flex-col justify-center items-center">
-         <p className="text-slate-700 font-bold">Export current Form schema by clicking the button below</p>
+         <p className="text-slate-700 text-xs md:text-2xl font-bold">Export current Form schema by clicking the button below</p>
          <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
+            p-1 md:px-3 md:py-1 text-xs md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' onClick={()=>exportCurrentSchema()}>Export</button>
          </div>
 
          <div className="h-[1px] w-full bg-black"></div>
 
-         <div className='flex flex-col gap-3 justify-center items-center'>
-         <p className="text-slate-700 font-bold">
+         <div className='flex flex-col gap-3 pb-5 justify-center items-center'>
+         <p className="text-slate-700 text-xs md:text-2xl font-bold">
           Want to export schema with its restored data? click the button below</p>
          <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
+            p-1 md:px-3 md:py-1 text-xs md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
             hover:bg-slate-700' onClick={()=>exportSchemaWithRestoredData()}>
               Export</button>
          </div>
@@ -540,17 +540,17 @@ return (
       <div className="flex flex-col gap-3">
         <div className="flex justify-center items-center">
          <div className="flex flex-col justify-center items-center">
-          <p className="text-xl font-bold text-blue-700">Show previously Submitted Data By clicking the button below</p>
+          <p className="text-xs md:text-xl font-bold text-blue-700">Show previously Submitted Data By clicking the button below</p>
           <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-blue-500 cursor-pointer 
+            p-1 md:px-3 md:py-1 text-xs md:text-2xl font-semibold text-white bg-blue-500 cursor-pointer 
             hover:bg-blue-700' onClick={()=>showHistory()}>button</button>
             <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-blue-500 cursor-pointer 
+            p-1 md:px-3 md:py-1 text-xs md:text-2xl font-semibold text-white bg-blue-500 cursor-pointer 
             hover:bg-blue-700 mt-1 md:mt-3' onClick={hideHistory}>Hide Previous Data</button>
          </div>
          
        </div>
-      <div id='history' className="grid grid-cols-1 md:grid-cols-3 gap-3 m-5">
+      <div id='history' className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5">
           {
             previousData.map((item, i) => {
               return(
@@ -560,7 +560,7 @@ return (
                   
                   Object.entries(item?.fieldWithValues).map(([key, value], index) => {
                     return(
-                    <div key={index} className="flex gap-1 text-xl font-bold text-black">
+                    <div key={index} className="flex gap-1 text-xs md:text-xl font-bold text-black">
                       
                       <p>{console.log("key"+ key+" value "+ value)}</p>
                       <p>{key} : {" "}</p>

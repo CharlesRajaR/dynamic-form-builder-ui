@@ -24,7 +24,20 @@ body{
     );
 }
 
-@media only screen and (min-width:500px){
+form {
+   @apply flex flex-col gap-1 border-[1px] md:border-[3px] rounded-md px-3 py-1 md:p-5 bg-white shadow-lg inset-shadow-sm shadow-slate-700
+}
+form p{
+    @apply text-[10px] md:text-[15px] lg:text-[20px] font-semibold text-red-700 
+}
+form input{
+    @apply outline-none border-[1px] md:border-[3px] border-slate-700 font-semibold rounded-md text-xs md:text-2xl py-1 px-1 md:py-3 px-3;
+}
+form label{
+    @apply text-xs md:text-xl font-bold;
+}
+
+/*@media only screen and (min-width:500px){
 
 form {
     display: flex;
@@ -99,4 +112,4 @@ label {
             font-size: 20px;
             font-weight: bold;
             color: rgb(32, 34, 36);   }
-}
+}*/
