@@ -1,22 +1,28 @@
 {
-    "name": "nextjs-register-10",
-    "properties": {
-      "name": {
-        "type": "string"
-      },
-      "email": {
-        "type": "email"
-      },
-      "age": {
-        "type": "number"
-      },
-      "password":{
-        "type":"password"
-      },
-      "state": {
-        "type": "string"
-      }
+  "id": "68550adec7e07eb40f372479",
+  "name": "nextjs-register-8",
+  "properties": {
+    "name": {
+      "type": "string"
     },
-    "required": ["name", "email", "password"]
-  }
-  
+    "email": {
+      "type": "email"
+    },
+    "age": {
+      "type": "number"
+    },
+    "password": {
+      "type": "password",
+      "min": "8",
+      "max": "10"
+    },
+    "state": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "email",
+    "password"
+  ]
+}

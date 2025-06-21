@@ -76,7 +76,9 @@ const removeSchema = () => {
   document.getElementById("schemaFile").value = "";
   const formContainer = document.getElementById("form");
   const form = document.getElementById("createdForm");
-  formContainer.removeChild(form);
+  if(form){
+      formContainer.removeChild(form);
+  }
   setFormCreated(false);
   }
 }
@@ -102,9 +104,11 @@ const handleChange = (e) => {
 
 const hasValidLength = () => {
   const properties = currentSchema?.properties;
+  let validFlag = true; 
 
   for(const key in properties){
     const constraints = properties[key];
+    console.log("constraints", constraints);
 
     if("min" in constraints && "max" in constraints){
       const minLength = Number(constraints["min"]);
@@ -112,14 +116,16 @@ const hasValidLength = () => {
 
       const value = formData[key];
       const errortag = document.getElementById(`${key}errortag`);
+      console.log("in has valid length")
+      console.log("errortag", errortag);
       console.log("minimum length: ",minLength);
       
       if(value.length < minLength || value.length > maxLength){
         errortag.innerHTML = `<div><p>minimum length required is ${minLength}</p><p>max length required is ${maxLength}</p></div>`
+        validFlag = false;
       }
       else{
         errortag.innerHTML = ""
-        return true;
       }
     }
     else if("min" in constraints){
@@ -131,10 +137,10 @@ const hasValidLength = () => {
       
       if(value.length < minLength){
         errortag.innerHTML = `<div><p>minimum length required is ${minLength}</p></div>`
+        validFlag = false;
       }
       else{
         errortag.innerHTML = ""
-        return true;
       }
     }
     else if("max" in constraints){
@@ -145,16 +151,16 @@ const hasValidLength = () => {
       console.log("minimum length: ",minLength);
       
       if(value.length > maxLength){
-        errortag.innerHTML = `<div><p>max length required is ${maxLength}</p></div>`
+        errortag.innerHTML = `<div><p>max length required is ${maxLength}</p></div>`;
+        validFlag = false;
       }
       else{
         errortag.innerHTML = ""
-        return true;
       }
     }
   }
 
-  return false;
+  return validFlag;
 }
 const typeValidator = (type, errortag, value, name) => {
     console.log(`type validator: name: ${name}, value: ${value} , type: ${type}, errortag: ${errortag}`);
@@ -414,26 +420,30 @@ const processFile = (event) => {
 
 const downloadSampleJson = () => {
      const sampleSchema = {
-    name: "unique name for each schema",
-    properties: {
-      name: {
-        type: "string"
-      },
-      email: {
-        type: "email"
-      },
-      age: {
-        type: "number"
-      },
-      password:{
-        type:"password"
-      },
-      state: {
-        type: "string"
-      }
-    },
-    required: ["name", "email", "password"]
+      name: "unique name for each schema",
+      properties: {
+        name: {
+          type: "string"
+        },
+        email: {
+          type: "email"
+        },
+        age: {
+          type: "number"
+        },
+        password: {
+          type: "password",
+          min: 8,
+          max: 10
+        },
+        state: {
+          type: "string"
+        }
+       },
+
+      required: ["name", "email", "password"]
      }
+
      const jsonData = JSON.stringify(sampleSchema, null, 2);
      const blob = new Blob([jsonData], { type :"application/json"});
      const link = document.createElement("a");
@@ -446,9 +456,9 @@ const downloadSampleJson = () => {
 }
 
 return (
-  <div className="min-h-screen mt-5 w-full">
-    <div className="w-full flex flex-col">
-      <div className="w-full  flex flex-col gap-5">
+  <div className="min-h-screen prev  w-full">
+    <div className="w-full flex flex-col gap-5">
+      <div className="w-full  flex flex-col gap-5" id="bg-grad">
        <div className="flex flex-col justify-center items-center">
         <div className="flex flex-col gap-1">
         <p className="text-blue-700 font-semibold text-lg">
@@ -474,6 +484,7 @@ return (
              Remove Imported schema
          </button>
        </div>
+
        <div className="h-[1px] w-full bg-black"></div>
 
        <div className="flex flex-col gap-3 justify-center items-center">
@@ -502,7 +513,29 @@ return (
 
        {currentSchema !== null && <div className="h-[1px] w-full bg-black"></div>}
 
-       <div className="flex justify-center items-center">
+       <div className="flex flex-col gap-3 justify-center items-center">
+         <div className="flex flex-col justify-center items-center">
+         <p className="text-slate-700 font-bold">Export current Form schema by clicking the button below</p>
+         <button className='border-[1px] border-slate-700 rounded-md
+            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
+            hover:bg-slate-700' onClick={()=>exportCurrentSchema()}>Export</button>
+         </div>
+
+         <div className="h-[1px] w-full bg-black"></div>
+
+         <div className='flex flex-col gap-3 justify-center items-center'>
+         <p className="text-slate-700 font-bold">
+          Want to export schema with its restored data? click the button below</p>
+         <button className='border-[1px] border-slate-700 rounded-md
+            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
+            hover:bg-slate-700' onClick={()=>exportSchemaWithRestoredData()}>
+              Export</button>
+         </div>
+       </div>
+      </div>
+  
+      <div className="flex flex-col gap-3">
+        <div className="flex justify-center items-center">
          <div className="flex flex-col justify-center items-center">
           <p className="text-xl font-bold text-blue-700">Show previously Submitted Data By clicking the button below</p>
           <button className='border-[1px] border-slate-700 rounded-md
@@ -514,11 +547,11 @@ return (
          </div>
          
        </div>
-      <div id='history' className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div id='history' className="grid grid-cols-1 md:grid-cols-3 gap-3 m-5">
           {
             previousData.map((item, i) => {
               return(
-               <div key={i} className="p-3 bg-gray-200 rounded-md flex flex-col gap-1">
+               <div key={i} className="p-3 bg-gray-200 rounded-md flex border-[1px] border-slate-300 rounded-md  flex-col gap-1">
                 <p className="text-center">Form {": "}{i+1}</p>
                 {
                   
@@ -537,30 +570,10 @@ return (
             )})
           }
       </div>
-       <div className="h-[1px] w-full bg-black"></div>
 
-
-       <div className="flex flex-col gap-3 justify-center items-center">
-         <div className="flex flex-col justify-center items-center">
-         <p className="text-slate-700 font-bold">Export current schema by clicking the button below</p>
-         <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
-            hover:bg-slate-700' onClick={()=>exportCurrentSchema()}>Export</button>
-         </div>
-
-         <div className="h-[1px] w-full bg-black"></div>
-
-         <div className='flex flex-col gap-3 justify-center items-center'>
-         <p className="text-slate-700 font-bold">
-          Want to export schema with its restored data? click the button below</p>
-         <button className='border-[1px] border-slate-700 rounded-md
-            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-slate-500 cursor-pointer 
-            hover:bg-slate-700' onClick={()=>exportSchemaWithRestoredData()}>
-              Export</button>
-         </div>
-       </div>
       </div>
     </div>
+
   </div>
   );
 }
