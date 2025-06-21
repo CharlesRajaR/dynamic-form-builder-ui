@@ -13,15 +13,14 @@ import React, { useState } from "react";
 // }
 
 export default function Home() {
-  const [currentSchema, setCurrentSchema] = useState(null);
-  const [errorData, setErrorData] = useState({});
-  const [formData, setFormData] = useState({});
-  const [previousData, setPreviousData] = useState([]);
-  const [formCreated, setFormCreated] = useState(false); 
+const [currentSchema, setCurrentSchema] = useState(null);
+const [errorData, setErrorData] = useState({});
+const [formData, setFormData] = useState({});
+const [previousData, setPreviousData] = useState([]);
+const [formCreated, setFormCreated] = useState(false); 
 
 
-
-  const createForm = () => {
+const createForm = () => {
     if(currentSchema == null){
       alert("import the schema file and then create form");
       console.log("no schema found: ", currentSchema);
@@ -72,57 +71,63 @@ export default function Home() {
     console.log("initial error", errorData);
     formContainer.appendChild(form);
   }
-  }
+}
   
-  const handleChange = (e) => {
+const handleChange = (e) => {
     const {name, value} = e.target;
+
     setFormData(prev => ({
       ...prev, [name]:value
     }));
-    console.log(name)
-    console.log(value)
+
+    console.log(name);
+    console.log(value);
+
     const errortag = document.getElementById(`${name}errortag`);
-    // errortag.innerHTML = "hi hello welcome"
+
     const field = currentSchema.properties[name];
+
     if("type" in field){
       typeValidator(field.type, errortag, value, name);
     }
-    if("min" in field){
-      const minLength = field.min;
-      if(value.length < minLength){
-        errortag.innerHTML = `minimum length required is ${minLength} \n`
-        setErrorData(prev => ({
-          ...prev, [name]:`minimum length required is ${minLength} \n`
-        }));
-      }
-      else{
-        errortag.innerHTML = ""
-        setErrorData(prev => ({
-          ...prev, [name]:"no error"
-        }));
-      }
-    }
-    if("max" in field){
-      const maxLength = field.max;
-      if(value.length > maxLength){
-        errortag.innerHTML = `maximum length required is ${maxLength} \n`
-        setErrorData(prev => ({
-          ...prev, [name]:`maximum length required is ${maxLength} \n`
-        }));
-      }
-      else{
-        errortag.innerHTML = "";
-        setErrorData(prev => ({
-          ...prev, [name]:"no error"
-        }));
-      }
-    }
-    
-    console.log("formdatahandlechange", formData);
-    console.log("errordatahandlechange", errorData);
-    }
 
-  const typeValidator = (type, errortag, value, name) => {
+    // if("min" in field){
+    //   const minLength = field.min;
+    //   console.log("minimum length: ",minLength);
+    //   if(value.length < minLength){
+    //     errortag.innerHTML = `minimum length required is ${minLength} \n`
+    //     setErrorData(prev => ({
+    //       ...prev, [name]:`minimum length required is ${minLength} \n`
+    //     }));
+    //   }
+    //   else{
+    //     errortag.innerHTML = ""
+    //     setErrorData(prev => ({
+    //       ...prev, [name]:"no error"
+    //     }));
+    //   }
+    // }
+
+    // if("max" in field){
+    //   const maxLength = field.max;
+    //   console.log("minimum length: ",maxLength);
+    //   if(value.length > maxLength){
+    //     errortag.innerHTML = `maximum length required is ${maxLength} \n`
+    //     setErrorData(prev => ({
+    //       ...prev, [name]:`maximum length required is ${maxLength} \n`
+    //     }));
+    //   }
+    //   else{
+    //     errortag.innerHTML = "";
+    //     setErrorData(prev => ({
+    //       ...prev, [name]:"no error"
+    //     }));
+    //   }
+    // }
+
+}
+
+const typeValidator = (type, errortag, value, name) => {
     console.log(`type validator: name: ${name}, value: ${value} , type: ${type}, errortag: ${errortag}`);
     if (type === "string"){
       errortag.innerHTML = ""
@@ -158,81 +163,40 @@ export default function Home() {
     else if (type === "password"){
       passwordValidator(value, name, errortag)
      }
-  }
+}
 
-  const passwordValidator = (value, name, errortag) => {
+const passwordValidator = (value, name, errortag) => {
     if(!isValidPassword(value)){
       console.log("password is in-valid...");
 
       setErrorData(prev => ({
-        ...prev, password:"password is invalid"
+        ...prev, [name]:"password is invalid"
       }));
 
-      // const p1 = document.createElement("p");
-      // p1.id = "smallerr";
-      // p1.innerHTML = "at least one small letter is required";
-      // const p2 = document.createElement("p");
-      // p2.id = "caperr";
-      // p2.innerHTML  = "at least one capital letter is required";
-      // const p3 = document.createElement("p");
-      // p3.id = "digerr";
-      // p3.innerHTML  = "at least one digit letter is required";
-      // const p4 = document.createElement("p");
-      // p4.id = "symerr";
-      // p4.innerHTML  = "at least one symbol (@$!%*?&) is required";
-    
-      // if(!/[a-z]/.test(value) ){
-      //   errortag.appendChild(p1);
-      // }
-      // if(!/[@$!%*?&]/.test(value) ){
-      //   errortag.appendChild(p4);
-      // }
-      // if(!/\d/.test(value) ){
-      //   errortag.appendChild(p3);
-      // }
-      // if(!/[A-Z]/.test(value)){
-      //   errortag.appendChild(p2);
-      // }       
-        
-      return false;
+      errortag.innerHTML = "<div><p>at least one small letter is required</p><p>at least one capital letter is required</p><p>at least one digit letter is required</p><p>at least one symbol letter is required</p></div>"
+
       }
 
       else{
         console.log("else statement")
         setErrorData(prev => ({
-          ...prev, password:"no error"
+          ...prev, [name]:"no error"
         }));
-        // const p1 = document.getElementById("smallerr");
-        // const p2 = document.getElementById("caperr");
-        // const p3 = document.getElementById("digerr");
-        // const p4 = document.getElementById("symerr");
-
-        // if(p1 && errortag.contains(p1)){
-        //   errortag.removeChild(p1);
-        // }
-        // if(p2 && errortag.contains(p2)){
-        //   errortag.removeChild(p2);
-        // }
-        // if(p3 && errortag.contains(p3)){
-        //   errortag.removeChild(p3);
-        // }
-        // if(p4 && errortag.contains(p4)){
-        //   errortag.removeChild(p4);
-        // }
-        return true;
+        
+        errortag.innerHTML = ""
       }
-  }
+}
 
-  const isValidEmail = (email) =>{
+const isValidEmail = (email) =>{
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
    return regex.test(email);
-  }
+}
 
-  const isValidPassword = (password) => {
+const isValidPassword = (password) => {
     return /[a-z]/.test(password) && /[@$!%*?&]/.test(password) && /\d/.test(password) && /[A-Z]/.test(password)
-  }
+}
 
-  const submitForm = () => {
+const submitForm = () => {
     console.log("submit formss : ",formData);
     console.log("error details : ", errorData);
     if(currentSchema === null){
@@ -290,7 +254,7 @@ const hasErrorData = () => {
   return false;
 }
 
-  const showHistory = () => {
+const showHistory = () => {
     if(currentSchema === null){
       alert("import respective schema! \n then click the button to see previous submitted form data...")
     }
@@ -315,16 +279,16 @@ const hasErrorData = () => {
     });
 
     }
-  }
-  const hideHistory = () => {
+}
+const hideHistory = () => {
     if(previousData.length == 0){
        alert("already the previous data was hidden");
     }
     else{
       setPreviousData([]);
     }
-  }
-  const exportCurrentSchema = () => {
+}
+const exportCurrentSchema = () => {
     if(currentSchema === null){
       alert("no schema found, first import the schema")
     }
@@ -340,9 +304,9 @@ const hasErrorData = () => {
      link.click();
      document.body.removeChild(link);
     }
-  }
+}
 
-  const exportSchemaWithRestoredData = () => {
+const exportSchemaWithRestoredData = () => {
     if(currentSchema === null){
       alert("import schema of the form you want to export");
     }
@@ -369,9 +333,9 @@ const hasErrorData = () => {
      link.click();
      document.body.removeChild(link);
     }
-  }
+}
 
-  const processFile = (event) => {
+const processFile = (event) => {
     const file = event.target.files?.[0];
 
     if(!file) return;
@@ -414,11 +378,10 @@ const hasErrorData = () => {
       }
     };
     reader.readAsText(file);
-  }
+}
 
 
-
-  return (
+return (
   <div className="min-h-screen mt-5 w-full">
     <div className="w-full flex flex-col">
       <div className="w-full  flex flex-col gap-5">

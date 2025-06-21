@@ -5,36 +5,6 @@
 
 - Spring Boot backend server is deployed in internet which is accessed by the frontend internally.
 
-## 🧱 Tech Stack Used:
-### 🖥️ Frontend: Next.js
-- Why Next.js?
-
-- Seamlessly integrates with React, allowing dynamic rendering of form fields based on the input JSON Schema.
-- Its file-based routing and modular structure made organizing UI components intuitive and efficient.
-
-### How it helped solve the problem:
-
-Dynamic form rendering was handled with ease by React components, and Next.js provided a structured way to manage routes, handle client-server interaction, and support live form validation in real-time.
-
-### 🧠 Backend: Java (Spring Boot)
-- Why Java and Spring Boot?
-
-- Spring Boot offers robust data validation, dependency injection, and easy integration with databases, making it ideal for scalable API development.
-- Mature ecosystem and strong community support helped quickly implement JSON Schema validation on the server-side.
-- Secure and production-ready out of the box — essential for handling and validating form submissions safely.
-
-### How it helped solve the problem:
-Server-side validation reused the same JSON Schema as the frontend, ensuring consistency.Spring Boot simplified the creation of RESTful APIs for schema storage, data submission, export, and retrieval.
-
-## 🗃️ Database: MongoDB
-- Why MongoDB?
-
-- Schema-less design was ideal for storing dynamic form data that may vary in structure depending on the schema.
-- Great support for nested and complex JSON-like documents (BSON), aligning naturally with JSON Schema-based data.
-- Scalability and flexibility were a plus for future extensions (e.g., storing user submissions per schema, querying exports, etc.).
-
-### How it helped solve the problem:
-Easily associated multiple submitted form datasets with a specific schema.
 
 
 ## Steps to run the website in local system:
@@ -102,7 +72,7 @@ Make sure you have the following installed:
 ## 1.Import .json schema file
 ### Description:
 - import the .json schema file by clicking the (choose file no file choosen) tab in the top of the website, the name field in the schema is unique for each schema. because based on this name if the schema is already imported previously at any time , that is stored in the database is taken and the current schema is not stored in the database again, this will maintain no duplication in schema.
-- For each properties, currently the supported contraints are : type - which denote the type of the field, min - denote minimum length of the field, max - maximum length of the field.
+- For each properties contraints are : type - which denote the type of the field(number, email, string, password).
 - Note: if the imported schema is not valid, then the alert message is shown.
 
 ### Format:
@@ -150,3 +120,33 @@ Make sure you have the following installed:
 
 ---
 
+## 🧱 Tech Stack Used:
+### 🖥️ Frontend: Next.js
+- Why Next.js?
+
+- Seamlessly integrates with React, allowing dynamic rendering of form fields based on the input JSON Schema.
+- Its file-based routing and modular structure made organizing UI components intuitive and efficient.
+
+### How it helped solve the problem:
+
+Dynamic form rendering was handled with ease by React components, and Next.js provided a structured way to manage routes, handle client-server interaction, and support live form validation in real-time.
+
+### 🧠 Backend: Java (Spring Boot)
+- Why Java and Spring Boot?
+
+- Spring Boot offers robust data validation, dependency injection, and easy integration with databases, making it ideal for scalable API development.
+- Mature ecosystem and strong community support helped quickly implement JSON Schema validation on the server-side.
+- Secure and production-ready out of the box — essential for handling and validating form submissions safely.
+
+### How it helped solve the problem:
+Server-side validation reused the same JSON Schema as the frontend, ensuring consistency.Spring Boot simplified the creation of RESTful APIs for schema storage, data submission, export, and retrieval.
+
+## 🗃️ Database: MongoDB
+- Why MongoDB?
+
+- Schema-less design was ideal for storing dynamic form data that may vary in structure depending on the schema.
+- Great support for nested and complex JSON-like documents (BSON), aligning naturally with JSON Schema-based data.
+- Scalability and flexibility were a plus for future extensions (e.g., storing user submissions per schema, querying exports, etc.).
+
+### How it helped solve the problem:
+Easily associated multiple submitted form datasets with a specific schema.
