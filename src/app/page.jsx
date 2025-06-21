@@ -72,6 +72,16 @@ const createForm = () => {
     formContainer.appendChild(form);
   }
 }
+
+const removeSchema = () => {
+  if(currentSchema == null){
+    alert("already there is no schema...")
+  }
+  else{
+  setCurrentSchema(null);
+  document.getElementById("schemaFile").value = ""
+  }
+}
   
 const handleChange = (e) => {
     const {name, value} = e.target;
@@ -397,6 +407,13 @@ return (
          rounded-md" type='file' id='schemaFile' accept='.json'/>
         </div>
           
+       </div>
+       <div className="flex justify-center items-center" >
+         <button className='border-[1px] border-slate-700 rounded-md
+            px-3 py-1 text-sm md:text-2xl font-semibold text-white bg-red-500 cursor-pointer 
+            hover:bg-slate-700' onClick={() => removeSchema()} >
+             Remove Imported schema
+         </button>
        </div>
        <div className="h-[1px] w-full bg-black"></div>
 
