@@ -3,14 +3,7 @@ import Image from "next/image";
 import { getFormDataOfSchema, getSchemaByName, storeFormData, storeSchema } from './api';
 import React, { useState } from "react";
 
-// interface Schema{
-//   type:string;
-//   properties:{
-//     [key:string]:{
-//       type:"string"|"number"|"integer"|"boolean";
-//     }
-//   }
-// }
+
 
 export default function Home() {
 const [currentSchema, setCurrentSchema] = useState(null);
@@ -35,6 +28,7 @@ const createForm = () => {
     formContainer.innerHTML = ""; // Clear previous form
 
     const form = document.createElement("form");
+    form.id = "createdForm"
  
     for (const key in schema.properties) {
       const field = schema.properties[key];
@@ -79,7 +73,11 @@ const removeSchema = () => {
   }
   else{
   setCurrentSchema(null);
-  document.getElementById("schemaFile").value = ""
+  document.getElementById("schemaFile").value = "";
+  const formContainer = document.getElementById("form");
+  const form = document.getElementById("createdForm");
+  formContainer.removeChild(form);
+  setFormCreated(false);
   }
 }
   
@@ -100,43 +98,64 @@ const handleChange = (e) => {
     if("type" in field){
       typeValidator(field.type, errortag, value, name);
     }
-
-    // if("min" in field){
-    //   const minLength = field.min;
-    //   console.log("minimum length: ",minLength);
-    //   if(value.length < minLength){
-    //     errortag.innerHTML = `minimum length required is ${minLength} \n`
-    //     setErrorData(prev => ({
-    //       ...prev, [name]:`minimum length required is ${minLength} \n`
-    //     }));
-    //   }
-    //   else{
-    //     errortag.innerHTML = ""
-    //     setErrorData(prev => ({
-    //       ...prev, [name]:"no error"
-    //     }));
-    //   }
-    // }
-
-    // if("max" in field){
-    //   const maxLength = field.max;
-    //   console.log("minimum length: ",maxLength);
-    //   if(value.length > maxLength){
-    //     errortag.innerHTML = `maximum length required is ${maxLength} \n`
-    //     setErrorData(prev => ({
-    //       ...prev, [name]:`maximum length required is ${maxLength} \n`
-    //     }));
-    //   }
-    //   else{
-    //     errortag.innerHTML = "";
-    //     setErrorData(prev => ({
-    //       ...prev, [name]:"no error"
-    //     }));
-    //   }
-    // }
-
 }
 
+const hasValidLength = () => {
+  const properties = currentSchema?.properties;
+
+  for(const key in properties){
+    const constraints = properties[key];
+
+    if("min" in constraints && "max" in constraints){
+      const minLength = Number(constraints["min"]);
+      const maxLength = Number(constraints["max"]);
+
+      const value = formData[key];
+      const errortag = document.getElementById(`${key}errortag`);
+      console.log("minimum length: ",minLength);
+      
+      if(value.length < minLength || value.length > maxLength){
+        errortag.innerHTML = `<div><p>minimum length required is ${minLength}</p><p>max length required is ${maxLength}</p></div>`
+      }
+      else{
+        errortag.innerHTML = ""
+        return true;
+      }
+    }
+    else if("min" in constraints){
+      const minLength = Number(constraints["min"]);
+
+      const value = formData[key];
+      const errortag = document.getElementById(`${key}errortag`);
+      console.log("minimum length: ",minLength);
+      
+      if(value.length < minLength){
+        errortag.innerHTML = `<div><p>minimum length required is ${minLength}</p></div>`
+      }
+      else{
+        errortag.innerHTML = ""
+        return true;
+      }
+    }
+    else if("max" in constraints){
+      const maxLength = Number(constraints["max"]);
+
+      const value = formData[key];
+      const errortag = document.getElementById(`${key}errortag`);
+      console.log("minimum length: ",minLength);
+      
+      if(value.length > maxLength){
+        errortag.innerHTML = `<div><p>max length required is ${maxLength}</p></div>`
+      }
+      else{
+        errortag.innerHTML = ""
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
 const typeValidator = (type, errortag, value, name) => {
     console.log(`type validator: name: ${name}, value: ${value} , type: ${type}, errortag: ${errortag}`);
     if (type === "string"){
@@ -203,7 +222,7 @@ const isValidEmail = (email) =>{
 }
 
 const isValidPassword = (password) => {
-    return /[a-z]/.test(password) && /[@$!%*?&]/.test(password) && /\d/.test(password) && /[A-Z]/.test(password)
+    return /[a-z]/.test(password) && /[@$!%*?&]/.test(password) && /\d/.test(password) && /[A-Z]/.test(password) 
 }
 
 const submitForm = () => {
@@ -218,6 +237,9 @@ const submitForm = () => {
     else if(hasErrorData()){
        alert("some field value are wrong")
        console.log("errorData : ",errorData);
+    }
+    else if(!hasValidLength()){
+       console.log("some field value length are invalid");
     }
     else{
     const schemaName = currentSchema.name;

@@ -1,5 +1,5 @@
 {
-    "name": "nextjs-register-8",
+    "name": "nextjs-register-10",
     "properties": {
       "name": {
         "type": "string"
@@ -11,9 +11,7 @@
         "type": "number"
       },
       "password":{
-        "type":"password",
-        "min":8,
-        "max":10
+        "type":"password"
       },
       "state": {
         "type": "string"
