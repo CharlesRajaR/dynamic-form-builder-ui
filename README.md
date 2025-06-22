@@ -77,53 +77,152 @@ Make sure you have the following installed:
 ### Description:
 - import the .json schema file by clicking the (choose file no file choosen) tab in the top of the website, the name field in the schema is unique for each schema. because based on this name if the schema is already imported previously at any time , that is stored in the database is taken and the current schema is not stored in the database again, this will maintain no duplication in schema.
 - For each properties contraints are : type - which denote the type of the field(number, email, string, password).
+- If already the schema with same name is imported alert messeage "already the schema with same name is found" is shown, so that you will use that schema or go with your schema by rename the name field in the schema.
 - Note: if the imported schema is not valid, then the alert message is shown.
 
 ### Format:
 ```bash
 {
     
-    "name": "Registration form",//the name of each schema must be unique
+    "name": "the name of each schema must be unique",
     "properties": {
-      "name": {
-        "type": "string",
-      },
-      "email": {
-         "type": "email"
-      },
-      "age": {
-        "type": "number"
-      },
-       "password": {
-        "type": "password"
-      },
-      "state": {
-        "type": "string"
-      }
-    },
-    "required": ["name", "email"]
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "email"
+        },
+        "age": {
+          "type": "number or integer",
+          "min":"only for number type! specify minimum number",
+          "max":"only for number type! specify maximum number"
+        },
+        "password": {
+          "type": "password",
+          "minLength": "replace with minimum length of the text",
+          "maxLength": "replace with maximum length of the text"
+        },
+        "state": {
+          "type": "string"
+        }
+       },
+    "required": ["name", "email", "required"]
  }
  ```
 
 ## 2.Create Dynamic Form
 ### Description:
 - Click the create form button to create the dynamic form
-- Note : For validation part third party libraries like Yup etc., is not used, Instead i use javascript to validate the form.
+- Note : For validation part I did not use third party libraries like Yup etc., Instead i use javascript to validate the form.
 
 ## 3.Submit Form
 ### Description:
-- Submit the form by clicking the submit button, which will submit data if all the data are valid, otherwise it will give an alert message
+- Submit the form by clicking the submit button, which will submit data if all the data are valid, otherwise it will give an alert message based on the error like required field is missing, text length is not matching respectively.
 - After Submitting the backend spring-boot will store the form data with association with the particular schema after validating the form data based on that schema.
 - Data are stored in the mongodb database.
 
 ## 4.Previous data
 ### Description:
-- Click the show previous data button, which will get all the previously submitted form for the current schema from the backend and then render in the website.
+- Click the show previous data button, which  will get all the previously submitted form for the current schema from the backend and then render in the website.
 - Click the hide previous data button to hide the previous data.
 
 ## 5.Export Schema:
 ### Description:
-- Click the export button to export the current schema which will be used for re import.
+- Click the export button to export the current form schema which will be used for re import.
+- the downloaded file format is given below
+### Format:
+```bash
+{
+  "id": "685777de3f325542c76a47ae",
+  "name": "schema-1",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "age": {
+      "type": "integer",
+      "min": "18",
+      "max": "30"
+    },
+    "password": {
+      "type": "password",
+      "minLength": "8",
+      "maxLength": "10"
+    },
+    "state": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "email",
+    "password"
+  ]
+}
+ ```
+
+
+## 6.Export Form Data:
+### Description:
+- Click the export Form button to export the current form schema with the data of all submitted forms.
+- The downloaded file format is given below
+### Format:
+```bash
+{
+  "schema": {
+    "id": "685777de3f325542c76a47ae",
+    "name": "schema-1",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "email"
+      },
+      "age": {
+        "type": "integer",
+        "min": "18",
+        "max": "30"
+      },
+      "password": {
+        "type": "password",
+        "minLength": "8",
+        "maxLength": "10"
+      },
+      "state": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "name",
+      "email",
+      "password"
+    ]
+  },
+  "formData": [
+    {
+      "Form-1": {
+        "name": "Charles Raja",
+        "email": "rcharlesraja2003@gmail.com",
+        "age": "18",
+        "password": "Add23@ja",
+        "state": "Tamil Nadu"
+      }
+    },
+    //All submitted forms appear here...
+  ]
+}
+ ```
+
+## 7.Remove Imported Schema:
+### Description:
+- Click the remove import schema button which will clear all data of the current schema
+
+
+![Website Screenshot](./website.jpeg)
 
 ---
 
@@ -157,3 +256,6 @@ Server-side validation reused the same JSON Schema as the frontend, ensuring con
 
 ### How it helped solve the problem:
 Easily associated multiple submitted form datasets with a specific schema.
+
+![Mongodb schema document](./schema-document.jpeg)
+![Mongodb form document](./form-document.jpeg)
