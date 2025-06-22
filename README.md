@@ -221,7 +221,7 @@ Make sure you have the following installed:
 ### Description:
 - Click the remove import schema button which will clear all data of the current schema
 
-
+### Website UI:
 ![Website Screenshot](./website.jpeg)
 
 ---
@@ -257,5 +257,7 @@ Server-side validation reused the same JSON Schema as the frontend, ensuring con
 ### How it helped solve the problem:
 Easily associated multiple submitted form datasets with a specific schema.
 
+### Mongodb schema document:
 ![Mongodb schema document](./schema-document.jpeg)
+### Mongodb Form document:
 ![Mongodb form document](./form-document.jpeg)
