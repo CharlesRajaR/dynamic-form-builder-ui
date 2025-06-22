@@ -9,7 +9,7 @@
 ### Demo Vedio for reference:
 [Demo vedio link](https://drive.google.com/file/d/1lMTz4lAHqujzH-q-rUo5Qhi-poMTjzzg/view?usp=sharing)
 
-
+--- 
 
 ## Steps to run the website in local system:
 ### For Frontend:
@@ -20,7 +20,6 @@ Make sure you have the following installed:
 - [Node.js](https://nodejs.org/) (v16 or later recommended)
 - npm (comes with Node.js) 
 
----
 
 ### Steps:
 ## 📥 Clone the Repository
@@ -34,6 +33,7 @@ npm run dev
 - then open the browser and go to http://localhost:3000
 - You can start editing the page by modifying `app/page.tsx`, `app/api.js` The page auto-updates as you edit the file.
 
+---
 
 ### For Backend:
 ## Running the Backend Locally
@@ -44,7 +44,6 @@ Make sure you have the following installed:
 - Java 17 or later
 - Download: https://jdk.java.net/17
 
----
 
 ### Method 1: Clone and Build from Github Repository:
 1. Clone the repository: `git clone https://github.com/CharlesRajaR/dynamic-form-builder.git`
@@ -61,8 +60,8 @@ Make sure you have the following installed:
 ### Note:
 - while running the backend make sure you turn on the internet because the backend is connecting to the remote mongodb database deployment.
 
-
---- 
+ 
+---
 
 - After running both the frontend and backend in the local system the request from the frontend(http://localhost:3000) is automatically handled by the backend running in the port (http://localhost:8000) and the respective response is sent to the frontend http://localhost:3000.
 - Now the website is fully functional and description of functionality is given below.
@@ -70,6 +69,7 @@ Make sure you have the following installed:
 ### Demo  Vedio:
 [Demo vedio for using the website](https://drive.google.com/file/d/1_57vEg1vxyu90PWpkeGIoklso7T9SZEz/view?usp=sharing)
 
+---
 
 ### Functionalites:
 
