@@ -63,7 +63,7 @@ Make sure you have the following installed:
  
 ---
 
-- After running both the frontend and backend in the local system the request from the frontend(http://localhost:3000) is automatically handled by the backend running in the port (http://localhost:8000) and the respective response is sent to the frontend http://localhost:3000.
+- After running both the frontend and backend in the local system the request from the frontend(http://localhost:3000) is automatically handled by the backend deployed in the internet, not the backend running locally. so you go to folder "src/app" inside there is a file called api.js open it and change the BASE_URL to "http://localhost:8080" because the backend is running locally in the port (http://localhost:8000).
 - Now the website is fully functional and description of functionality is given below.
 
 ### Demo  Vedio:

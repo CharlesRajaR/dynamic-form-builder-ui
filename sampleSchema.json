@@ -1,5 +1,5 @@
 {
-  "name": "unique name for each schema",
+  "name": "unique-1",
   "properties": {
     "name": {
       "type": "string"
@@ -8,20 +8,29 @@
       "type": "email"
     },
     "age": {
-      "type": "number"
+      "type": "number",
+      "min": "18",
+      "max": "30"
     },
     "password": {
       "type": "password",
-      "min": 8,
-      "max": 10
+      "minLength": "8",
+      "maxLength": "10"
+    },
+    "district": {
+      "type": "null"
     },
     "state": {
+      "type": "string"
+    },
+    "nation": {
       "type": "string"
     }
   },
   "required": [
     "name",
     "email",
-    "password"
+    "password",
+    "nation"
   ]
 }
