@@ -1,7 +1,7 @@
 {
   "schema": {
-    "id": "6856b645c552996616d6f53c",
-    "name": "login-form-2",
+    "id": "685777de3f325542c76a47ae",
+    "name": "schema-1",
     "properties": {
       "name": {
         "type": "string"
@@ -10,12 +10,14 @@
         "type": "email"
       },
       "age": {
-        "type": "number"
+        "type": "integer",
+        "min": "18",
+        "max": "30"
       },
       "password": {
         "type": "password",
-        "min": "8",
-        "max": "10"
+        "minLength": "8",
+        "maxLength": "10"
       },
       "state": {
         "type": "string"
@@ -31,36 +33,9 @@
     {
       "Form-1": {
         "name": "Charles Raja",
-        "email": "rcr@gmail.com",
-        "age": "22",
-        "password": "abA@2asA",
-        "state": "Tamil Nadu"
-      }
-    },
-    {
-      "Form-2": {
-        "name": "Charles Raja",
-        "email": "rcr1@gmail.com",
-        "age": "22",
-        "password": "vgbA2@hs",
-        "state": "Tamil Nadu"
-      }
-    },
-    {
-      "Form-3": {
-        "name": "Charles Raja",
-        "email": "rcr@gmail.com",
-        "age": "22",
-        "password": "Add23@jn",
-        "state": "Tamil Nadu"
-      }
-    },
-    {
-      "Form-4": {
-        "name": "Charles Raja",
         "email": "rcharlesraja2003@gmail.com",
-        "age": "22",
-        "password": "jjjA9394@",
+        "age": "18",
+        "password": "Add23@ja",
         "state": "Tamil Nadu"
       }
     }

@@ -6,8 +6,8 @@
 
 - Spring Boot backend server is deployed in internet which is accessed by the frontend internally.
 
-### Demo  Vedio:
-[Demo vedio for using the website](https://drive.google.com/file/d/1lMTz4lAHqujzH-q-rUo5Qhi-poMTjzzg/view?usp=sharing)
+### Demo Vedio for reference:
+[Demo vedio link](https://drive.google.com/file/d/1lMTz4lAHqujzH-q-rUo5Qhi-poMTjzzg/view?usp=sharing)
 
 
 
@@ -93,6 +93,9 @@ Make sure you have the following installed:
       },
       "age": {
         "type": "number"
+      },
+       "password": {
+        "type": "password"
       },
       "state": {
         "type": "string"

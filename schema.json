@@ -1,6 +1,5 @@
 {
-  "id": "6856b645c552996616d6f53c",
-  "name": "login-form-2",
+  "name": "schema-1",
   "properties": {
     "name": {
       "type": "string"
@@ -9,12 +8,14 @@
       "type": "email"
     },
     "age": {
-      "type": "number"
+      "type": "integer",
+      "min": 18,
+      "max": 30
     },
     "password": {
       "type": "password",
-      "min": "8",
-      "max": "10"
+      "minLength": 8,
+      "maxLength": 10
     },
     "state": {
       "type": "string"

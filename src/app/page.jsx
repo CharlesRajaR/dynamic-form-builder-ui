@@ -113,9 +113,63 @@ const hasValidLength = () => {
     const constraints = properties[key];
     console.log("constraints", constraints);
 
+    const type = constraints["type"];
+    if(type === "integer" || type === "number"){
     if("min" in constraints && "max" in constraints){
-      const minLength = Number(constraints["min"]);
-      const maxLength = Number(constraints["max"]);
+      const min = Number(constraints["min"]);
+      const max = Number(constraints["max"]);
+
+      const value = formData[key];
+      const errortag = document.getElementById(`${key}errortag`);
+      console.log("in has valid length")
+      console.log("errortag", errortag);
+      console.log("minimum length: ",min);
+      
+      if(Number(value) < min || Number(value) > max){
+        errortag.innerHTML = `<div><p>number is in the range </p><p> of ${min} to ${max} [both inclusive]</p></div>`
+        validFlag = false;
+      }
+      else{
+        errortag.innerHTML = ""
+      }
+    }
+    else if("min" in constraints){
+      const min = Number(constraints["min"]);
+
+      const value = formData[key];
+      const errortag = document.getElementById(`${key}errortag`);
+      console.log("minimum number is : ",min);
+      
+      if(Number(value) < min){
+        errortag.innerHTML = `<div><p>minimum number must be ${min}</p></div>`
+        validFlag = false;
+      }
+      else{
+        errortag.innerHTML = ""
+      }
+    }
+    else if("max" in constraints){
+      const max = Number(constraints["max"]);
+
+      const value = formData[key];
+      const errortag = document.getElementById(`${key}errortag`);
+      console.log("maximum number is: ",max);
+      
+      if(Number(value) > max){
+        errortag.innerHTML = `<div><p>number must be less than or equal to ${max}</p></div>`;
+        validFlag = false;
+      }
+      else{
+        errortag.innerHTML = ""
+      }
+    }
+    }
+
+    else{
+
+    if("minLength" in constraints && "maxLength" in constraints){
+      const minLength = Number(constraints["minLength"]);
+      const maxLength = Number(constraints["maxLength"]);
 
       const value = formData[key];
       const errortag = document.getElementById(`${key}errortag`);
@@ -131,8 +185,8 @@ const hasValidLength = () => {
         errortag.innerHTML = ""
       }
     }
-    else if("min" in constraints){
-      const minLength = Number(constraints["min"]);
+    else if("minLength" in constraints){
+      const minLength = Number(constraints["minLength"]);
 
       const value = formData[key];
       const errortag = document.getElementById(`${key}errortag`);
@@ -146,8 +200,8 @@ const hasValidLength = () => {
         errortag.innerHTML = ""
       }
     }
-    else if("max" in constraints){
-      const maxLength = Number(constraints["max"]);
+    else if("maxLength" in constraints){
+      const maxLength = Number(constraints["maxLength"]);
 
       const value = formData[key];
       const errortag = document.getElementById(`${key}errortag`);
@@ -160,6 +214,7 @@ const hasValidLength = () => {
       else{
         errortag.innerHTML = ""
       }
+    }
     }
   }
 
@@ -442,12 +497,14 @@ const downloadSampleJson = () => {
           type: "email"
         },
         age: {
-          type: "number"
+          type: "number or integer",
+          min:"only for number type! specify minimum number",
+          max:"only for number type! specify maximum number"
         },
         password: {
           type: "password",
-          min: 8,
-          max: 10
+          minLength: "replace with minimum length of the text",
+          maxLength: "replace with maximum length of the text"
         },
         state: {
           type: "string"
