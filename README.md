@@ -94,8 +94,13 @@ Make sure you have the following installed:
         },
         "age": {
           "type": "number or integer",
-          "min":"only for number type! specify minimum number",
-          "max":"only for number type! specify maximum number"
+          "min":"specify minimum number eg:18",
+          "max":"specify maximum number"
+        },
+        "dob": {
+          "type": "date",
+          "min":"2003-01-01",
+          "max":"2007-01-01"
         },
         "password": {
           "type": "password",

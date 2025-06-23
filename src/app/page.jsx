@@ -41,6 +41,11 @@ const createForm = () => {
       input.name = key;
       input.value = "";
       input.id = key;
+      console.log("field-type : ", field.type)
+      if(field.type === "date"){
+
+        input.placeholder = "DD-MM-YYYY"
+      }
 
       setFormData(prev => ({
         ...prev, [key]:""
@@ -112,15 +117,16 @@ const hasValidLength = () => {
   for(const key in properties){
     const constraints = properties[key];
     console.log("constraints", constraints);
-
+    const errortag = document.getElementById(`${key}errortag`);
     const type = constraints["type"];
+
     if(type === "integer" || type === "number"){
     if("min" in constraints && "max" in constraints){
       const min = Number(constraints["min"]);
       const max = Number(constraints["max"]);
 
       const value = formData[key];
-      const errortag = document.getElementById(`${key}errortag`);
+
       console.log("in has valid length")
       console.log("errortag", errortag);
       console.log("minimum length: ",min);
@@ -157,6 +163,73 @@ const hasValidLength = () => {
       
       if(Number(value) > max){
         errortag.innerHTML = `<div><p>number must be less than or equal to ${max}</p></div>`;
+        validFlag = false;
+      }
+      else{
+        errortag.innerHTML = ""
+      }
+    }
+    }
+
+    else if(type === "date"){
+      if("min" in constraints && "max" in constraints){
+
+        const [year, month, day] = constraints["min"].split("-").map(Number);
+        const minDate = new Date(year, month-1, day);
+
+        const [year1, month1, day1] = constraints["max"].split("-").map(Number);
+        const maxDate = new Date(year1, month1-1, day1);
+
+        const value = formData[key];
+        const [day2, month2, year2] = value.split("-").map(Number);
+        const date = new Date(year2, month2-1, day2);
+
+        const errortag = document.getElementById(`${key}errortag`);
+        console.log("in has valid length")
+        console.log("errortag", errortag);
+      
+      if(date < minDate || date > maxDate){
+        errortag.innerHTML = `<div><p>date is in the range of </p><p>  ${constraints["min"]} to ${constraints["max"]}</p><p>[both inclusive]</p></div>`
+        validFlag = false;
+      }
+      else{
+        errortag.innerHTML = ""
+      }
+    }
+    else if("min" in constraints){
+      
+        const [year, month, day] = constraints["min"].split("-").map(Number);
+        const minDate = new Date(year, month-1, day);
+
+        const value = formData[key];
+        const [day2, month2, year2] = value.split("-").map(Number);
+        const date = new Date(year2, month2-1, day2);
+
+
+      const errortag = document.getElementById(`${key}errortag`);
+      console.log("minimum number is : ",min);
+      
+      if(date < minDate){
+        errortag.innerHTML = `<div><p>date must be ${constraints["min"]} or above</p></div>`
+        validFlag = false;
+      }
+      else{
+        errortag.innerHTML = ""
+      }
+    }
+    else if("max" in constraints){
+      const [year, month, day] = constraints["max"].split("-").map(Number);
+        const maxDate = new Date(year, month-1, day);
+
+        const value = formData[key];
+        const [day2, month2, year2] = value.split("-").map(Number);
+        const date = new Date(year2, month2-1, day2);
+
+      const errortag = document.getElementById(`${key}errortag`);
+      console.log("maximum number is: ",max);
+      
+      if(date > maxDate){
+        errortag.innerHTML = `<div><p>date must be ${constraints["max"]} or below</p></div>`;
         validFlag = false;
       }
       else{
@@ -256,8 +329,39 @@ const typeValidator = (type, errortag, value, name) => {
     else if (type === "password"){
       passwordValidator(value, name, errortag)
      }
+     else if(type === "date"){
+      dateValidator(value, name, errortag)
+     }
 }
 
+const dateValidator = (value, name, errortag) => {
+   const regex = /^\d{2}-\d{2}-\d{4}$/; 
+
+   if(value != null && !regex.test(value)){
+     errortag.innerHTML = "<p>Enter the date like: 22-01-2020</p>"
+
+     setErrorData(prev => ({
+           ...prev, [name]:"invalid date"
+          }));
+   }
+   else{
+    const [ day, month, year ] = value.split("-").map(Number);
+    const date = new Date(year, month-1, day);
+    if(date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day){
+       errortag.innerHTML = "<p>date is invalid</p>";
+       setErrorData(prev => ({
+               ...prev, [name]:"invalid date"
+               }));
+    }
+    else{
+      errortag.innerHTML = ""
+      setErrorData(prev => ({
+            ...prev, [name]:"no error"
+           }));
+    }
+   }
+   
+}
 const passwordValidator = (value, name, errortag) => {
     if(!isValidPassword(value)){
       console.log("password is in-valid...");
@@ -315,9 +419,12 @@ const submitForm = () => {
         alert("form saved successfully...")
         createForm(currentSchema);
       }
+      else if(savedForm === null){
+        alert("form data is invalid - by backend validator");
+      }
     })
     .catch(error => {
-      alert("submitting data is not successful"+error);
+      console.log("submitting data is not successful"+error);
     });
   }
 }
@@ -505,6 +612,11 @@ const downloadSampleJson = () => {
           type: "password",
           minLength: "replace with minimum length of the text",
           maxLength: "replace with maximum length of the text"
+        },
+        dateOfBirth:{
+           type:"date",
+           min:"2020-01-01 // start date the input will accept",
+           max:"2040-12-31 // end date the input will accept"
         },
         state: {
           type: "string"

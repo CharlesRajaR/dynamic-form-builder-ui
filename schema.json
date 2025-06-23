@@ -1,12 +1,16 @@
 {
-  "id": "685777de3f325542c76a47ae",
-  "name": "schema-1",
+  "name": "schema-3",
   "properties": {
     "name": {
       "type": "string"
     },
     "email": {
       "type": "email"
+    },
+    "dateOfBirth":{
+      "type": "date",
+      "min": "2003-01-01",
+      "max":"2026-01-01"
     },
     "age": {
       "type": "integer",
@@ -25,6 +29,7 @@
   "required": [
     "name",
     "email",
-    "password"
+    "password",
+    "dateOfBirth"
   ]
 }

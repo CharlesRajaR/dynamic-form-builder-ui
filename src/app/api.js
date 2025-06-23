@@ -1,6 +1,5 @@
 const BASE_URL = "https://mean-gerry-rcraja-59c65f8e.koyeb.app"
 
-
 export async function storeSchema(schema){
     try{
         const response = await fetch(`${BASE_URL}/store/schema`, {
