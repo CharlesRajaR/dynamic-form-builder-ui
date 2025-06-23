@@ -51,6 +51,12 @@ Make sure you have the following installed:
 3. Build and run the application: `mvn spring-boot:run`
 4. Access the application at `http://localhost:8080`
 
+or 
+
+1. Build your own jar file using command : mvn clean package
+2. go to target folder there an executable jar file is created with name form-builder-0.0.1-SNAPSHOT.jar
+3. open the command prompt in this folder and type: java -jar form-builder-0.0.1-SNAPSHOT.jar then hit enter.
+
 ### Method 2: Run Using Pre-built Executable JAR
 1. Clone the repository containing the pre-built executable JAR: `git clone https://github.com/CharlesRajaR/Executable-file-for-form-builder.git`
 2. Navigate to the JAR directory: `cd Executable-file-for-form-builder`
